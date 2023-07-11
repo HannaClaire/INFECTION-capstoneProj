@@ -5,13 +5,11 @@ class Scene1 extends Phaser.Scene {
 
     preload(){
         this.load.image("blueVirus", "public/assets/images/Blue_Virus.png");
+        this.load.image("gutsy", "public/assets/images/gutsy.png");
 
     }
 
     create() {
-        this.add.text(20, 20, "Testing DB page");
-
-        this.add.text (window.innerWidth / 2, window.innerHeight - 2 , 'Player : Score', { fontFamily: 'Arial',  fontSize: 20 });
         
         this.scene.start("playGame");
     }
