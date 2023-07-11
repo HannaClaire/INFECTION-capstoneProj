@@ -4,13 +4,15 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image("blueVirus", "public/assets/images/Blue_Virus.png");
+        //this.load.image("blueVirus", "public/assets/images/Blue_Virus.png");
         this.load.image("gutsy", "public/assets/images/gutsy.png");
-
+        this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
+            frameWidth: 50,
+            frameHeight: 50
+        });
     }
 
-    create() {
-        
+    create() {   
         this.scene.start("playGame");
     }
     
