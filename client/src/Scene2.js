@@ -61,10 +61,10 @@ class Scene2 extends Phaser.Scene {
     //create the reset position function
     resetCellPos(cell){
       // put the cell on the top of the window.
-      cell.y = 0;
+    cell.y = 0;
       // put the cell on a random position on the x axis
-      const randomX = Phaser.Math.Between(0, window.innerWidth);
-      cell.x = randomX;
+    const randomX = Phaser.Math.Between(0, window.innerWidth);
+    cell.x = randomX;
     }
 
 }//end bracket
