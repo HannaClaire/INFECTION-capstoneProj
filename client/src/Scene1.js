@@ -13,6 +13,8 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {   
+
+        // this.add.dom(window.innerWidth, window.innerHeight, 'div', 'background-color: lime; width: 220px; height: 100px; font: 48px Arial', 'Phaser');
         
             const inputElement = document.createElement("input");
             inputElement.type = "text";
@@ -38,54 +40,63 @@ class Scene1 extends Phaser.Scene {
             this.submitButton = submitButton;
         }
 
+
 async handleSubmit() {
             const inputValue = this.inputElement.value;
+            console.log(inputValue)
+    fetch('http://localhost:9000/api/scores_db/', {
+        method: 'POST',
+        body: JSON.stringify({name:inputValue,highScore:0}),
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(res => res.json()).catch(err => console.log(err.response))
+}
 
             // const { MongoClient } = require('mongodb');
 
-            async function connectAndInsert() {
-                const uri = 'mongodb://localhost:27017';
-                const client = new MongoClient(uri);
+            // async function connectAndInsert() {
+            //     const uri = 'mongodb://localhost:27017';
+            //     const client = new MongoClient(uri);
 
-                try {
-                    await client.connect();
+            //     try {
+            //         await client.connect();
 
-                    const database = client.db('scores_db');
-                    const collection = database.collection('users');
+            //         const database = client.db('scores_db');
+            //         const collection = database.collection('users');
 
-                    const newData = { name: inputValue };
-                    const result = await collection.insertOne(newData);
+            //         const newData = { name: inputValue };
+            //         const result = await collection.insertOne(newData);
 
-                    console.log('Insert success:', result);
-                } catch (error) {
-                    console.error('Error:', error);
-                } finally {
-                    await client.close();
-                }
-            }
+            //         console.log('Insert success:', result);
+            //     } catch (error) {
+            //         console.error('Error:', error);
+            //     } finally {
+            //         await client.close();
+            //     }
+            // }
 
-            // Call the function to connect and insert
-            connectAndInsert();
+            // // Call the function to connect and insert
+            // connectAndInsert();
 
-            try {
-                const response = await fetch('/users', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ data: inputValue }),
-                });
+            // try {
+            //     const response = await fetch('/users', {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify({ data: inputValue }),
+            //     });
 
-                const data = await response.json();
-                console.log("Response data:", data);
-                this.inputElement.value = ""; // Clear the input field
-            } catch (error) {
-                console.error("Error:", error);
-            }
+            //     const data = await response.json();
+            //     console.log("Response data:", data);
+            //     this.inputElement.value = ""; // Clear the input field
+            // } catch (error) {
+            //     console.error("Error:", error);
+            // }
 
     // this.scene.start("playGame");
 
-        } //end brack of create function!
+        //end brack of create function!
     
     
 }//end bracket

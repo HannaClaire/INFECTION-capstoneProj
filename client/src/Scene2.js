@@ -48,7 +48,7 @@ class Scene2 extends Phaser.Scene {
 
     // create the function to move the ships
     moveCell(cell, speed) {
-      
+    
         // increase the position of the cell on the vertical axis
         cell.y += speed;
         // if the cell hits the bottom of the screen call the reset function
