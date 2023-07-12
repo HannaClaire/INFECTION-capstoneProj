@@ -27,7 +27,7 @@ class Scene2 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("blueVirus",{ start: 0, end: 3 }),
             frameRate: 7,
             repeat: -1
-         });
+        });
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
@@ -48,7 +48,7 @@ class Scene2 extends Phaser.Scene {
 
     // create the function to move the ships
     moveCell(cell, speed) {
-      
+    
         // increase the position of the cell on the vertical axis
         cell.y += speed;
         // if the cell hits the bottom of the screen call the reset function
@@ -61,10 +61,10 @@ class Scene2 extends Phaser.Scene {
     //create the reset position function
     resetCellPos(cell){
       // put the cell on the top of the window.
-      cell.y = 0;
+    cell.y = 0;
       // put the cell on a random position on the x axis
-      const randomX = Phaser.Math.Between(0, window.innerWidth);
-      cell.x = randomX;
+    const randomX = Phaser.Math.Between(0, window.innerWidth);
+    cell.x = randomX;
     }
 
 }//end bracket

@@ -22,7 +22,7 @@ class GameScene extends Scene {
       window.innerHeight/2,
       'Welcome to Infection!',
       {
-        color: 'pink',
+        color: 'white',
         fontFamily: 'monospace',
         fontSize: '26px'
       }
@@ -51,9 +51,15 @@ const config = {
       // debug: true
     }
   },
+
+  dom: {
+    createContainer: true
+  },
   scene: [
     Scene1, Scene2
   ]
 }
 
 new Game(config);
+
+export default GameScene
