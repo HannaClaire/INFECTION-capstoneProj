@@ -1,20 +1,21 @@
+
+
 class Scene1 extends Phaser.Scene {
     constructor () {
         super("BootGame")
     }
 
     preload(){
-        //this.load.image("blueVirus", "public/assets/images/Blue_Virus.png");
         this.load.image("gutsy", "public/assets/images/gutsy.png");
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
             frameWidth: 50,
             frameHeight: 50
         });
+
     }
 
     create() {   
 
-    
             const inputElement = document.createElement("input");
             inputElement.type = "text";
             inputElement.style.position = "absolute";
@@ -34,8 +35,21 @@ class Scene1 extends Phaser.Scene {
             submitButton.addEventListener("click", this.handleSubmit.bind(this));
             document.body.appendChild(submitButton);
 
+            this.inputElement.addEventListener("keyup", (event) => {
+                if (event.key === "Enter") {
+                  this.handleSubmit();
+                }
+              });
             this.submitButton = submitButton;
-        
+            
+            //Text around screen
+            const canvasWidth = this.scale.canvas.width;
+            const canvasHeight = this.scale.canvas.height;
+            const welcome = this.add.text(canvasWidth/2, 100, "Welcome to Infection!", {fontSize: "36pt", align: "center", color:"black"})
+            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontSize: "16pt", align: "center"});
+            label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
+            welcome.setOrigin(0.5);
+
         }
 
         async handleSubmit() {
@@ -47,6 +61,8 @@ class Scene1 extends Phaser.Scene {
                 headers: { 'Content-Type': 'application/json' }
             })
                 .then(res => res.json()).catch(err => console.log(err.response))
+                .then(this.inputElement.hidden = true)
+                .then(this.submitButton.hidden = true)
                 .then(this.scene.start("playGame"))
         }    
     
