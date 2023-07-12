@@ -27,7 +27,7 @@ class Scene2 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("blueVirus",{ start: 0, end: 3 }),
             frameRate: 7,
             repeat: -1
-         });
+        });
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
