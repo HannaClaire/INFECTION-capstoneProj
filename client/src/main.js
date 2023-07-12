@@ -1,5 +1,5 @@
 import './style.css'
-import { Scene, Game, WEBGL, GameObjects } from 'phaser';
+import { Scene, Animations, Game, WEBGL, GameObjects } from 'phaser';
 import Scene1 from "./Scene1"
 import Scene2 from "./Scene2"
 
@@ -20,7 +20,7 @@ class GameScene extends Scene {
     this.textbox = this.add.text(
       window.innerWidth/2,
       window.innerHeight/2,
-      'Welcome to Phaser x Vite!',
+      'Welcome to Infection!',
       {
         color: 'pink',
         fontFamily: 'monospace',
@@ -29,6 +29,7 @@ class GameScene extends Scene {
     );
     
     this.textbox.setOrigin(0.5, 0.5);
+
   }
 }
 
@@ -38,6 +39,11 @@ const config = {
   height: window.innerHeight,
   canvas,
   backgroundColor: 0xB61731,
+  pixelArt: true,
+  fps: {
+      target: 60,
+      forceSetTimeOut: true
+  },
   physics: {
     default: 'arcade',
     arcade: {
