@@ -14,8 +14,7 @@ class Scene1 extends Phaser.Scene {
 
     create() {   
 
-        // this.add.dom(window.innerWidth, window.innerHeight, 'div', 'background-color: lime; width: 220px; height: 100px; font: 48px Arial', 'Phaser');
-        
+    
             const inputElement = document.createElement("input");
             inputElement.type = "text";
             inputElement.style.position = "absolute";
@@ -23,8 +22,6 @@ class Scene1 extends Phaser.Scene {
             inputElement.style.left = "50%";
             inputElement.style.transform = "translate(-50%, -50%)";
             document.body.appendChild(inputElement);
-
-            console.log(inputElement)
 
             this.inputElement = inputElement;
 
@@ -38,23 +35,20 @@ class Scene1 extends Phaser.Scene {
             document.body.appendChild(submitButton);
 
             this.submitButton = submitButton;
-
-        this.scene.start("playGame");
+        
         }
 
-
-async handleSubmit() {
-            const inputValue = this.inputElement.value;
-            console.log(inputValue)
-    fetch('http://localhost:9000/api/scores_db/', {
-        method: 'POST',
-        body: JSON.stringify({name:inputValue,highScore:0}),
-        headers: { 'Content-Type': 'application/json' }
-    })
-        .then(res => res.json()).catch(err => console.log(err.response))
-
-} 
-    
+        async handleSubmit() {
+                    const inputValue = this.inputElement.value;
+                    console.log(inputValue)
+            fetch('http://localhost:9000/api/scores_db/', {
+                method: 'POST',
+                body: JSON.stringify({name:inputValue,highScore:0}),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(res => res.json()).catch(err => console.log(err.response))
+                .then(this.scene.start("playGame"))
+        }    
     
 }//end bracket
 
