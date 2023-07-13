@@ -16,11 +16,6 @@ class Scene2 extends Phaser.Scene {
     }
 
     preload(){
-        const playerName = JSON.parse(localStorage.getItem('data')).userName;
-        console.log("Name from scene 1", playerName)
-
-        const playerId = JSON.parse(localStorage.getItem('playerId')).playerId;
-        console.log("ID from Scene1", playerId)
 
     }
 
@@ -62,6 +57,20 @@ class Scene2 extends Phaser.Scene {
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
+
+        //simulate a game over to update users scores.
+        const finalScore = 400;
+
+        fetch('http://localhost:9000/api/scores_db/' + playerId, {
+            method: 'PUT',
+            body: JSON.stringify({
+                name:playerName,
+                highScore:finalScore
+            }),
+            headers: { 'Content-type': 'application/json' }
+        })
+            .then(res => res.json())
+            .catch(err => console.log(err.response))
     }
 
     update(){
