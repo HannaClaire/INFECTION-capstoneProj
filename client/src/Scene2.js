@@ -1,4 +1,4 @@
-
+import Phaser from "phaser";
 
 class Scene2 extends Phaser.Scene {
     constructor () {
@@ -7,14 +7,17 @@ class Scene2 extends Phaser.Scene {
         this.blueVirus = null;
         this.cursors = null;
         this.speed = 5;
-        this.screenWidth = innerWidth; // Replace with your screen width
-        this.screenHeight = innerHeight; // Replace with your screen height
+        this.screenWidth = innerWidth; 
+        this.screenHeight = innerHeight; 
+    
         
+        
+    
     }
 
     initiation(){
         
-
+    
     }
 
     preload(){
@@ -25,6 +28,9 @@ class Scene2 extends Phaser.Scene {
 
     }
     create() {
+        const middleOfScreenH = this.screenHeight / 2
+        const middleOfScreenW = this.screenWidth / 2;
+        // this.blueVirus.setCollideWorldBounds(true)
         this.background = this.add.image(0,0, "gutsy");
         //this.background.angle = 90; //can rotate it for different aspects.
         this.background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "gutsy");
@@ -32,12 +38,14 @@ class Scene2 extends Phaser.Scene {
         this.background.setScale(2);
 
         this.add.text(20, 20, "Game play!", {fontSize: "26pt"});
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // this.blueVirus.setScale(1);
-        this.blueVirus = this.add.sprite(window.innerWidth / 2, window.innerHeight, "blueVirus");
+        //below needs the physics to create an 'arcadeSprite' object to allow for additional behaviours/methods
+        this.blueVirus = this.physics.add.sprite(window.innerWidth / 2, window.innerHeight, "blueVirus");
+        this.blueVirus.setCollideWorldBounds(true) //sets boundaries around the window
         this.blueVirus.flipX = true;
+        
+        
 
         this.anims.create({
             key: "blueVirus_anim",
@@ -52,6 +60,7 @@ class Scene2 extends Phaser.Scene {
     }
 
 
+
     update(){
         // to call a function to move the cells vertically
         // this.moveCell(this.blueVirus, 1);
@@ -60,7 +69,8 @@ class Scene2 extends Phaser.Scene {
 
         //to scroll the background image
         this.background.tilePositionY += 0.5;
-    
+        
+        //below is initialising the virus' movement around the visible screen (bounded by the sprites boundary physics in create method above)
         if (this.cursors.left.isDown && this.blueVirus.x > 0) {
             this.blueVirus.x -= this.speed;
         } else if (this.cursors.right.isDown && this.blueVirus.x < this.screenWidth) {
@@ -69,7 +79,7 @@ class Scene2 extends Phaser.Scene {
 
         if (this.cursors.up.isDown && this.blueVirus.y > 0) {
             this.blueVirus.y -= this.speed;
-        } else if (this.cursors.down.isDown && this.blueVirus.y < this.screenHeight -10) {
+        } else if (this.cursors.down.isDown && this.blueVirus.y < this.screenHeight) {
             this.blueVirus.y += this.speed;
         }
     

@@ -15,7 +15,6 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {   
-
             const inputElement = document.createElement("input");
             inputElement.type = "text";
             inputElement.style.position = "absolute";
@@ -37,9 +36,9 @@ class Scene1 extends Phaser.Scene {
 
             this.inputElement.addEventListener("keyup", (event) => {
                 if (event.key === "Enter") {
-                  this.handleSubmit();
+                this.handleSubmit();
                 }
-              });
+            });
             this.submitButton = submitButton;
             
             //Text around screen

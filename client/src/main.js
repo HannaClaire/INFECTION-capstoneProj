@@ -30,6 +30,9 @@ class GameScene extends Scene {
     
     this.textbox.setOrigin(0.5, 0.5);
 
+
+  
+
   }
 }
 
