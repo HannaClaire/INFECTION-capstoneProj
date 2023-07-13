@@ -54,7 +54,12 @@ class Scene1 extends Phaser.Scene {
 
         async handleSubmit() {
                     const inputValue = this.inputElement.value;
-                    console.log(inputValue)
+                    console.log(typeof inputValue)
+                    //save users input name in local storage to use in other scenes
+                    localStorage.setItem('data', JSON.stringify({ 
+                        "userName": inputValue
+                    }));
+            //posting name and zero to DB        
             fetch('http://localhost:9000/api/scores_db/', {
                 method: 'POST',
                 body: JSON.stringify({name:inputValue,highScore:0}),

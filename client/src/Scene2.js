@@ -3,9 +3,19 @@
 class Scene2 extends Phaser.Scene {
     constructor () {
         super("playGame")  
+        
+    }
+
+    initiation(){
+        
+
     }
 
     preload(){
+        const data = JSON.parse(localStorage.getItem('data'));
+        console.log("Name from scene 1", data.userName)
+        const playerName = data.userName;
+        
 
     }
     create() {
@@ -13,7 +23,6 @@ class Scene2 extends Phaser.Scene {
         //this.background.angle = 90; //can rotate it for different aspects.
         this.background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "gutsy");
         //this.background.setOrigin(0, 0);
-        
         this.background.setScale(2);
 
         this.add.text(20, 20, "Game play!", {fontSize: "26pt"});
@@ -31,6 +40,7 @@ class Scene2 extends Phaser.Scene {
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
+       
     }
 
 
