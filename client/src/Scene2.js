@@ -9,25 +9,29 @@ class Scene2 extends Phaser.Scene {
         this.speed = 5;
         this.screenWidth = innerWidth; 
         this.screenHeight = innerHeight; 
-    
-        
-        
-    
     }
 
-    initiation(){
-        
+    initiation(){   
     
     }
 
     preload(){
-        const data = JSON.parse(localStorage.getItem('data'));
-        console.log("Name from scene 1", data.userName)
-        const playerName = data.userName;
-        
+        const playerName = JSON.parse(localStorage.getItem('data')).userName;
+        console.log("Name from scene 1", playerName)
+
+        const playerId = JSON.parse(localStorage.getItem('playerId')).playerId;
+        console.log("ID from Scene1", playerId)
 
     }
+
     create() {
+        //retrieve playerName and Id from memory
+        const playerName = JSON.parse(localStorage.getItem('data')).userName;
+        console.log("Name from scene 1", playerName)
+
+        const playerId = JSON.parse(localStorage.getItem('playerId')).playerId;
+        console.log("ID from Scene1", playerId)
+
         const middleOfScreenH = this.screenHeight / 2
         const middleOfScreenW = this.screenWidth / 2;
         // this.blueVirus.setCollideWorldBounds(true)
@@ -38,6 +42,10 @@ class Scene2 extends Phaser.Scene {
         this.background.setScale(2);
 
         this.add.text(20, 20, "Game play!", {fontSize: "26pt"});
+        // // Create the text object and set its properties
+        // this.playerNameText = this.add.bitmapText(window.innerWidth /2, 20, playerName, 26);
+        // this.playerNameText.setTint(tintColor);
+
         this.cursors = this.input.keyboard.createCursorKeys();
 
         //below needs the physics to create an 'arcadeSprite' object to allow for additional behaviours/methods
@@ -45,8 +53,6 @@ class Scene2 extends Phaser.Scene {
         this.blueVirus.setCollideWorldBounds(true) //sets boundaries around the window
         this.blueVirus.flipX = true;
         
-        
-
         this.anims.create({
             key: "blueVirus_anim",
             frames: this.anims.generateFrameNumbers("blueVirus",{ start: 0, end: 3 }),
@@ -56,10 +62,7 @@ class Scene2 extends Phaser.Scene {
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
-    
     }
-
-
 
     update(){
         // to call a function to move the cells vertically

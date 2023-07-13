@@ -52,25 +52,32 @@ class Scene1 extends Phaser.Scene {
         }
 
         async handleSubmit() {
-                    const inputValue = this.inputElement.value;
-                    console.log(typeof inputValue)
-                    //save users input name in local storage to use in other scenes
-                    localStorage.setItem('data', JSON.stringify({ 
-                        "userName": inputValue
-                    }));
+            const inputValue = this.inputElement.value;
+            //save users input name in local storage to use in other scenes
+            localStorage.setItem('data', JSON.stringify({ 
+                "userName": inputValue
+            }));
             //posting name and zero to DB        
-            fetch('http://localhost:9000/api/scores_db/', {
+            await fetch('http://localhost:9000/api/scores_db/', {
                 method: 'POST',
                 body: JSON.stringify({name:inputValue,highScore:0}),
                 headers: { 'Content-Type': 'application/json' }
-            })
-                .then(res => res.json()).catch(err => console.log(err.response))
-                .then(this.inputElement.hidden = true)
-                .then(this.submitButton.hidden = true)
-                .then(this.scene.start("playGame"))
-        }    
+                })
+                .then(res => res.json())
+                .then(data => {
+                    // Access the id property from the parsed data from db res
+                    const playerIdRtn = data._id;
+                    console.log("Object id: ", playerIdRtn);
+                    localStorage.setItem('playerId', JSON.stringify({ 
+                        "playerId": playerIdRtn
+                        }));
+                    this.inputElement.hidden = true;
+                    this.submitButton.hidden = true;
+                    this.scene.start("playGame");
+                })
+                .catch(err => console.log(err.response))
+        }  
     
 }//end bracket
-
 
 export default Scene1
