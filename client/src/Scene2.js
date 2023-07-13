@@ -3,6 +3,12 @@
 class Scene2 extends Phaser.Scene {
     constructor () {
         super("playGame")  
+
+        this.blueVirus = null;
+        this.cursors = null;
+        this.speed = 5;
+        this.screenWidth = innerWidth; // Replace with your screen width
+        this.screenHeight = innerHeight; // Replace with your screen height
         
     }
 
@@ -27,8 +33,10 @@ class Scene2 extends Phaser.Scene {
 
         this.add.text(20, 20, "Game play!", {fontSize: "26pt"});
 
+        this.cursors = this.input.keyboard.createCursorKeys();
+
         // this.blueVirus.setScale(1);
-        this.blueVirus = this.add.sprite(window.innerWidth / 2, window.innerHeight / 2, "blueVirus");
+        this.blueVirus = this.add.sprite(window.innerWidth / 2, window.innerHeight, "blueVirus");
         this.blueVirus.flipX = true;
 
         this.anims.create({
@@ -40,21 +48,32 @@ class Scene2 extends Phaser.Scene {
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
-       
+    
     }
 
 
     update(){
         // to call a function to move the cells vertically
-        this.moveCell(this.blueVirus, 1);
+        // this.moveCell(this.blueVirus, 1);
         // this.moveCell(this.cell2, 1.5);
         // this.moveCell(this.cell3, 2);
 
         //to scroll the background image
         this.background.tilePositionY += 0.5;
+    
+        if (this.cursors.left.isDown && this.blueVirus.x > 0) {
+            this.blueVirus.x -= this.speed;
+        } else if (this.cursors.right.isDown && this.blueVirus.x < this.screenWidth) {
+            this.blueVirus.x += this.speed;
+        }
 
+        if (this.cursors.up.isDown && this.blueVirus.y > 0) {
+            this.blueVirus.y -= this.speed;
+        } else if (this.cursors.down.isDown && this.blueVirus.y < this.screenHeight -10) {
+            this.blueVirus.y += this.speed;
+        }
+    
     }
-
     // create the function to move the ships
     moveCell(cell, speed) {
         // increase the position of the cell on the vertical axis
