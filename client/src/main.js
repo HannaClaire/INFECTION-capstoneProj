@@ -51,10 +51,9 @@ const config = {
       // debug: true
     }
   },
-
-  dom: {
-    createContainer: true
-  },
+  // dom: {
+  //   createContainer: true
+  // },
   scene: [
     Scene1, Scene2
   ]
