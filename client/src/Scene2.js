@@ -30,15 +30,14 @@ class Scene2 extends Phaser.Scene {
         const middleOfScreenH = this.screenHeight / 2
         const middleOfScreenW = this.screenWidth / 2;
         // this.blueVirus.setCollideWorldBounds(true)
-        this.background = this.add.image(0,0, "gutsy");
+        this.background = this.add.image(0, 0, "gutsy");
         //this.background.angle = 90; //can rotate it for different aspects.
         this.background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "gutsy");
-        //this.background.setOrigin(0, 0);
         this.background.setScale(2);
 
         this.add.text(20, 20, "Game play!", {fontSize: "26pt"});
         // // Create the text object and set its properties
-        // this.playerNameText = this.add.bitmapText(window.innerWidth /2, 20, playerName, 26);
+        this.playerNameText = this.add.text(window.innerWidth /2, 20, playerName , {fontSize: "26pt"});
         // this.playerNameText.setTint(tintColor);
 
         this.cursors = this.input.keyboard.createCursorKeys();
