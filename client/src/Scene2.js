@@ -59,7 +59,7 @@ class Scene2 extends Phaser.Scene {
 
         localStorage.setItem("score", JSON.stringify({ "score": finalScore}));
         
-        const testScore = JSON.parse(localStorage.getItem("score")).finalScore;
+        const testScore = JSON.parse(localStorage.getItem("score")).score;
         console.log("Scene2 final score from memory: ", testScore)
 
         fetch('http://localhost:9000/api/scores_db/' + playerId, {
@@ -73,10 +73,10 @@ class Scene2 extends Phaser.Scene {
             .then(res => res.json())
             .catch(err => console.log(err.response))
 
-            // const gameOverStatus = true;
-            // if (gameOverStatus == true){
-            //     this.scene.start("gameOver");
-            // }
+            const gameOverStatus = true;
+            if (gameOverStatus == true){
+                this.scene.start("gameOver");
+            }
     }
 
     update(){
