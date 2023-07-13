@@ -20,9 +20,8 @@ class Scene3 extends Phaser.Scene {
         const playerName = JSON.parse(localStorage.getItem('data')).userName;
         const finalScore = JSON.parse(localStorage.getItem('score')).score;
         console.log("Scene3 scores:", finalScore)
-
-        this.add.text(canvasWidth/2, 300, playerName ,{ font: '46px Arial', fill: '#ffffff' }).setOrigin(0.5)
-        this.add.text(canvasWidth/2, 350, finalScore ,{ font: '36px Arial', fill: '#ffffff' }).setOrigin(0.5)
+        //display final score 
+        this.add.text(canvasWidth/2, 300, playerName +" : " + finalScore + "pts",{ font: '46px Arial', fill: '#ffffff' }).setOrigin(0.5)
 
     }
 

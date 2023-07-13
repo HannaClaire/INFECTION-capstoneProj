@@ -58,9 +58,7 @@ class Scene2 extends Phaser.Scene {
         const finalScore = 400;
 
         localStorage.setItem("score", JSON.stringify({ "score": finalScore}));
-        
-        const testScore = JSON.parse(localStorage.getItem("score")).score;
-        console.log("Scene2 final score from memory: ", testScore)
+    
 
         fetch('http://localhost:9000/api/scores_db/' + playerId, {
             method: 'PUT',
