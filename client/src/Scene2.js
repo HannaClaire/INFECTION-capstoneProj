@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 let bloodCells = [];
+const speeds = [];
 
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y) {
@@ -138,11 +139,15 @@ class Scene2 extends Phaser.Scene {
                 this.scene.start("gameOver");
             }
 
+
         // Create a bunch of blood cell sprites
         for (let i = 0; i < 24; i++) {
             let x = Phaser.Math.Between(0, window.innerWidth);
             let y = Phaser.Math.Between(0, window.innerHeight);
             const bloodCell = this.add.sprite(x, y, 'bloodCell');
+
+            // Generate a random speed between 0 and 2
+            let speedY = Phaser.Math.Between(0, 2);
 
             this.anims.create({
                 key: "bloodCell_anim",
@@ -153,11 +158,13 @@ class Scene2 extends Phaser.Scene {
 
             bloodCell.play("bloodCell_anim");
 
-            // Add the current blood cell sprite to the array
+            // Add the current blood cell sprite and its speed to the arrays
             bloodCells.push(bloodCell);
+            speeds.push(speedY);
         }
 
-    }
+
+    }//end of create func
 
     addEvents(){
         this.input.keyboard.on('keydown-SPACE', () =>{
@@ -177,6 +184,7 @@ class Scene2 extends Phaser.Scene {
         //to scroll the background image
         this.background.tilePositionY += 0.5;
 
+        //update position of white blood cells
         this.moveCells();
         
         //below is initialising the virus' movement around the visible screen (bounded by the sprites boundary physics in create method above)
@@ -192,21 +200,25 @@ class Scene2 extends Phaser.Scene {
             this.blueVirus.y += this.speed;
         }
     
-    }
+    }//end of update func
 
-    // create the function to move the ships
+    // create the function to move the white blood cells
     moveCells() {
-        bloodCells.forEach(function(cell) {
-            // Increase the position of the cell on the vertical axis
-            const speed = Phaser.Math.Between(0, 3);
-            cell.y += speed;
+        for (let i = 0; i < bloodCells.length; i++) {
+            let bloodCell = bloodCells[i];
+            let speedY = speeds[i];
 
-            // If the cell hits the bottom of the screen, call the reset function
-            if (cell.y > window.innerHeight) {
-                // Call the reset position function
-                this.resetCellPos(cell);
+            bloodCell.y += speedY;
+
+            // Add any additional logic or checks here
+
+            // Wrap the blood cell sprite around the screen
+            if (bloodCell.y > window.innerHeight) {
+                bloodCell.y = 0;
+            } else if (bloodCell.y < 0) {
+                bloodCell.y = window.innerHeight;
             }
-        }, this); // Pass 'this' as the second parameter to maintain the correct context
+        }
     }
 
     //create the reset position function
