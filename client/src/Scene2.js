@@ -71,7 +71,7 @@ class Scene2 extends Phaser.Scene {
             .then(res => res.json())
             .catch(err => console.log(err.response))
 
-            const gameOverStatus = true;
+            const gameOverStatus = false;
             if (gameOverStatus == true){
                 this.scene.start("gameOver");
             }
