@@ -131,6 +131,7 @@ class Scene2 extends Phaser.Scene {
                 this.scene.start("gameOver");
             }
 
+
         // Create a bunch of blood cell sprites
         for (let i = 0; i < 24; i++) {
             let x = Phaser.Math.Between(0, window.innerWidth);
