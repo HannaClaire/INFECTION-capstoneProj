@@ -13,7 +13,7 @@ class VirusBullet extends Phaser.Physics.Arcade.Sprite{
         this.setActive(true);
         this.setVisible(true);
 
-        this.setVelocity(0, -200);
+        this.setVelocity(0, -200); //bullet speed
     }
 
     preUpdate(time, delta){ //phasers lifecycle method - will shoot infinite amount of lasers as once reaching end of screen it will reset.
@@ -33,7 +33,7 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
 
         this.createMultiple({
             classType: VirusBullet,
-            frameQuantity:30, //how many bullets
+            frameQuantity:30, //bullet amount (though technically infinate currently)
             active: false, //inactive
             visible: false, //not visible
             key: "virusBullet"
@@ -162,6 +162,9 @@ class Scene2 extends Phaser.Scene {
 
     addEvents(){
         this.input.keyboard.on('keydown-SPACE', () =>{
+            this.shootVirusBullet(); // initiates the shooting functionality
+        })
+        this.input.keyboard.on('keydown-ENTER', () =>{
             this.shootVirusBullet(); // initiates the shooting functionality
         })
     }
