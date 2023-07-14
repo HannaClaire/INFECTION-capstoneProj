@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 
 
 class Scene1 extends Phaser.Scene {
