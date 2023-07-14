@@ -13,6 +13,15 @@ class VirusBullet extends Phaser.Physics.Arcade.Sprite{
 
         this.setVelocity(0, -200);
     }
+
+    preUpdate(time, delta){ //phasers lifecycle method - will shoot infinite amount of lasers as once reaching end of screen it will reset.
+        super.preUpdate(time, delta)
+        
+        if (this.y <= 0) {
+            this.setActive(false);
+            this.setVisible(false);
+        }
+    }
 }
 
 class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
@@ -126,7 +135,7 @@ class Scene2 extends Phaser.Scene {
 
     addEvents(){
         this.input.keyboard.on('keydown-SPACE', () =>{
-            this.shootVirusBullet();
+            this.shootVirusBullet(); // initiates the shooting functionality
         })
     }
 
@@ -135,11 +144,7 @@ class Scene2 extends Phaser.Scene {
     }
 
     update(){
-        // to call a function to move the cells vertically
-        // this.moveCell(this.blueVirus, 1);
-        // this.moveCell(this.cell2, 1.5);
-        // this.moveCell(this.cell3, 2);
-
+    
         //to scroll the background image
         this.background.tilePositionY += 0.5;
         
