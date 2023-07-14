@@ -111,10 +111,8 @@ class Scene2 extends Phaser.Scene {
 
         //simulate a game over to update users scores.
         const finalScore = 400;
-
         localStorage.setItem("score", JSON.stringify({ "score": finalScore}));
     
-
         fetch('http://localhost:9000/api/scores_db/' + playerId, {
             method: 'PUT',
             body: JSON.stringify({
@@ -134,11 +132,11 @@ class Scene2 extends Phaser.Scene {
         // Create a bunch of blood cell sprites
         for (let i = 0; i < 24; i++) {
             let x = Phaser.Math.Between(0, window.innerWidth);
-            let y = Phaser.Math.Between(0, window.innerHeight);
+            let y = Phaser.Math.Between(0, 0);
             const bloodCell = this.add.sprite(x, y, 'bloodCell');
 
-            // Generate a random speed between 0 and 2
-            let speedY = Phaser.Math.Between(0, 2);
+            // Generate a random speed between 1 and 3
+            let speedY = Phaser.Math.FloatBetween(0.1, 1.0);
 
             this.anims.create({
                 key: "bloodCell_anim",
@@ -147,6 +145,7 @@ class Scene2 extends Phaser.Scene {
                 repeat: -1
             });
 
+            //Play sprite animation
             bloodCell.play("bloodCell_anim");
 
             // Add the current blood cell sprite and its speed to the arrays
@@ -195,7 +194,7 @@ class Scene2 extends Phaser.Scene {
             let bloodCell = bloodCells[i];
             let speedY = speeds[i];
 
-            bloodCell.y += speedY;
+            bloodCell.y += speedY*2;
 
             // Add any additional logic or checks here
 
