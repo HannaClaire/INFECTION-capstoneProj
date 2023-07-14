@@ -61,9 +61,9 @@ class Scene2 extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image("virusBullet", "public/assets/images/virusBullet.png");
+        this.load.image("virusBullet", "public/assets/images/bullet.png");
 
-        this.load.spritesheet("bloodCell", "/public/assets/spritesheets/bloodcells.png",{
+        this.load.spritesheet("bloodCell", "/public/assets/spritesheets/whitebc.png",{
             frameWidth: 41,
             frameHeight: 40
         });
@@ -93,7 +93,7 @@ class Scene2 extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.virusBulletGroup = new VirusBulletGroup(this);
-        this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.04)});
+        this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
         //below needs the physics to create an 'arcadeSprite' object to allow for additional behaviours/methods
         this.blueVirus = this.physics.add.sprite(window.innerWidth / 2, window.innerHeight, "blueVirus");
         this.blueVirus.setCollideWorldBounds(true) //sets boundaries around the window
