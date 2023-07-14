@@ -92,11 +92,10 @@ class Scene2 extends Phaser.Scene {
         //this.background.angle = 90; //can rotate it for different aspects.
         this.background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "gutsy");
         this.background.setScale(2);
-
-        this.add.text(20, 20, "Game play!", {fontSize: "26pt"});
-        // // Create the text object and set its properties
-        this.playerNameText = this.add.text(window.innerWidth /2, 20, playerName , {fontSize: "26pt"});
-        // this.playerNameText.setTint(tintColor);
+    
+        // Create the text object and set its properties
+        this.playerNameText = this.add.text(window.innerWidth /2, 20, playerName , {fontSize: "20pt"});
+        this.playerNameText.setOrigin(0.5);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
