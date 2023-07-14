@@ -10,11 +10,9 @@ class VirusBullet extends Phaser.Physics.Arcade.Sprite{
 
     fire(x, y) {
         this.body.reset(x, y); 
-
         this.setActive(true);
         this.setVisible(true);
-
-        this.setVelocity(0, -200);
+        this.setVelocity(0, -300);
     }
 
     preUpdate(time, delta){ //phasers lifecycle method - will shoot infinite amount of lasers as once reaching end of screen it will reset.
@@ -50,8 +48,6 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
     }
 }
 
-
-
 class Scene2 extends Phaser.Scene {
     constructor () {
         super("playGame")  
@@ -62,10 +58,6 @@ class Scene2 extends Phaser.Scene {
         this.screenWidth = innerWidth; 
         this.screenHeight = innerHeight; 
         this.virusBulletGroup; //shoot
-    }
-
-    initiation(){   
-    
     }
 
     preload(){
@@ -139,7 +131,6 @@ class Scene2 extends Phaser.Scene {
                 this.scene.start("gameOver");
             }
 
-
         // Create a bunch of blood cell sprites
         for (let i = 0; i < 24; i++) {
             let x = Phaser.Math.Between(0, window.innerWidth);
@@ -162,7 +153,6 @@ class Scene2 extends Phaser.Scene {
             bloodCells.push(bloodCell);
             speeds.push(speedY);
         }
-
 
     }//end of create func
 
