@@ -16,6 +16,11 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {   
+
+        const container = document.createElement("div");//creating a container/parent element for the child elements
+        container.className = "container";
+        document.body.appendChild(container);
+
             const inputElement = document.createElement("input");
             inputElement.type = "text";
             inputElement.style.position = "absolute";
@@ -45,8 +50,8 @@ class Scene1 extends Phaser.Scene {
             //Text around screen
             const canvasWidth = this.scale.canvas.width;
             const canvasHeight = this.scale.canvas.height;
-            const welcome = this.add.text(canvasWidth/2, 100, "Welcome to Infection!", {fontSize: "36pt", align: "center", color:"black"})
-            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontSize: "16pt", align: "center"});
+            const welcome = this.add.text(canvasWidth/2, 100, "Welcome to Infection!", {fontSize: "36pt", align: "center", color:"black", position: "absolute"})
+            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontSize: "16pt", align: "center", position: "absolute"});
             label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
             welcome.setOrigin(0.5);
 
