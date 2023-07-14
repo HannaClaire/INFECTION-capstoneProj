@@ -7,6 +7,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
+        // this.load.image("virusBullet", "public/assets/images/virusBullet.png" )
         this.load.image("gutsy", "public/assets/images/gutsy.png");
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
             frameWidth: 50,
@@ -16,7 +17,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {   
-
+        
         const container = document.createElement("div");//creating a container/parent element for the child elements
         container.className = "container";
         document.body.appendChild(container);
