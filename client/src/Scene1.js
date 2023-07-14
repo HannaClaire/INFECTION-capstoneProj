@@ -31,6 +31,7 @@ class Scene1 extends Phaser.Scene {
             document.body.appendChild(inputElement);
 
             this.inputElement = inputElement;
+            inputElement.focus(); // Set focus to the input element
 
             const submitButton = document.createElement("button");
             submitButton.textContent = "Submit";
