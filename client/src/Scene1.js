@@ -34,7 +34,7 @@ class Scene1 extends Phaser.Scene {
             inputElement.focus(); // Set focus to the input element
 
             const submitButton = document.createElement("button");
-            submitButton.textContent = "Submit";
+            submitButton.textContent = "Play!";
             submitButton.style.position = "absolute";
             submitButton.style.top = "65%";
             submitButton.style.left = "50%";

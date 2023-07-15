@@ -147,7 +147,7 @@ class Scene2 extends Phaser.Scene {
             
             this.bloodCells.children.each(function(cell) {
                     let x = Math.random()*window.innerWidth;
-                    let y = 30;
+                    let y = 40;
 
                     // Set the initial position of the bloodCell sprite
                     cell.x = x;
