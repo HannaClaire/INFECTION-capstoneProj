@@ -63,6 +63,6 @@ const config = {
   ]
 }
 
-new Game(config);
+let game = new Game(config);
 
 export default GameScene
