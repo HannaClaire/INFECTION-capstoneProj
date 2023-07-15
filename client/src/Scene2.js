@@ -32,7 +32,7 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
 
         this.createMultiple({
             classType: VirusBullet,
-            frameQuantity:30, //how many bullets
+            frameQuantity:30, //bullet amount (though technically infinate currently)
             active: false, //inactive
             visible: false, //not visible
             key: "virusBullet"
@@ -61,9 +61,9 @@ class Scene2 extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image("virusBullet", "public/assets/images/virusBullet.png");
+        this.load.image("virusBullet", "public/assets/images/bullet.png");
 
-        this.load.spritesheet("bloodCell", "/public/assets/spritesheets/bloodcells.png",{
+        this.load.spritesheet("bloodCell", "/public/assets/spritesheets/whitebc.png",{
             frameWidth: 41,
             frameHeight: 40
         });
@@ -93,7 +93,7 @@ class Scene2 extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.virusBulletGroup = new VirusBulletGroup(this);
-        this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.04)});
+        this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
         //below needs the physics to create an 'arcadeSprite' object to allow for additional behaviours/methods
         this.blueVirus = this.physics.add.sprite(window.innerWidth / 2, window.innerHeight, "blueVirus");
         this.blueVirus.setCollideWorldBounds(true) //sets boundaries around the window
@@ -105,6 +105,14 @@ class Scene2 extends Phaser.Scene {
             frameRate: 7,
             repeat: -1
         });
+        // this.anims.create({
+        //     key: "explosion_anim",
+        //     frames: this.anims.generateFrameNumbers("cellsplosion"),
+        //     frameRate: 10,
+        //     repeat: 0,
+        //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
+        // });
+
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
@@ -159,11 +167,28 @@ class Scene2 extends Phaser.Scene {
         this.input.keyboard.on('keydown-SPACE', () =>{
             this.shootVirusBullet(); // initiates the shooting functionality
         })
+        this.input.keyboard.on('keydown-ENTER', () =>{
+            this.shootVirusBullet(); // initiates the shooting functionality
+        })
     }
 
     shootVirusBullet(){
         this.virusBulletGroup.fireBullet(this.blueVirus.x, this.blueVirus.y -20)
     }
+
+    // handleBulletBloodCellCollision(virusBullet, bloodCell) {
+    //     // Handle the collision between bullet and blood cell
+    //     // For example, destroy the blood cell and remove the bullet
+    //     const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosion");
+    //     explosion.play("explosion_anim");
+
+    //     explosion.on("animationcomplete", () => {
+    //         explosion.destroy();
+    //     });
+
+    //     bloodCell.destroy();
+    //     virusBullet.destroy();
+    // }
 
     update(){
     
