@@ -13,7 +13,7 @@ const createRouter = require('./helpers/create_router.js');
 app.use(cors())
 app.use(express.json());
 
-MongoClient.connect(url )
+MongoClient.connect(url, { useUnifiedTopology: true }  )
     .then((client) => {
         const db = client.db("scores_db")
         const usersCollection = db.collection("users")
