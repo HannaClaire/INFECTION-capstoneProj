@@ -62,7 +62,7 @@ class Scene1 extends Phaser.Scene {
         async handleSubmit() {
             const inputValue = this.inputElement.value;
             //save users input name in local storage to use in other scenes
-            localStorage.setItem('data', JSON.stringify({ 
+            sessionStorage.setItem('data', JSON.stringify({ 
                 "userName": inputValue
             }));
             //posting name and zero to DB        
@@ -76,7 +76,7 @@ class Scene1 extends Phaser.Scene {
                     // Access the id property from the parsed data from db res
                     const playerIdRtn = data._id;
                     //console.log("Object id: ", playerIdRtn);
-                    localStorage.setItem('playerId', JSON.stringify({ 
+                    sessionStorage.setItem('playerId', JSON.stringify({ 
                         "playerId": playerIdRtn
                         }));
                     this.inputElement.hidden = true;

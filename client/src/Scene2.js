@@ -75,8 +75,8 @@ class Scene2 extends Phaser.Scene {
         this.addEvents();
 
         //retrieve playerName and Id from memory
-        const playerName = JSON.parse(localStorage.getItem('data')).userName;
-        const playerId = JSON.parse(localStorage.getItem('playerId')).playerId;
+        const playerName = JSON.parse(sessionStorage.getItem('data')).userName;
+        const playerId = JSON.parse(sessionStorage.getItem('playerId')).playerId;
 
         const middleOfScreenH = this.screenHeight / 2
         const middleOfScreenW = this.screenWidth / 2;
@@ -111,7 +111,7 @@ class Scene2 extends Phaser.Scene {
 
         //simulate a game over to update users scores.
         const finalScore = 400;
-        localStorage.setItem("score", JSON.stringify({ "score": finalScore}));
+        sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
     
         fetch('http://localhost:9000/api/scores_db/' + playerId, {
             method: 'PUT',
