@@ -225,10 +225,8 @@ class Scene2 extends Phaser.Scene {
 
             // Wrap the blood cell sprite around the screen
             if (bloodCell.y > window.innerHeight) {
-                bloodCell.y = 0;
-            } else if (bloodCell.y < 0) {
-                bloodCell.y = window.innerHeight;
-            }
+                this.resetCellPos(bloodCell)
+            } 
         }
     }
 
