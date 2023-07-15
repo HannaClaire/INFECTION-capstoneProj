@@ -1,8 +1,5 @@
 import Phaser from "phaser";
 
-let bloodCells = [];
-const speeds = [];
-
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y) {
         super(scene, x, y, "virusBullet")
@@ -32,7 +29,7 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
 
         this.createMultiple({
             classType: VirusBullet,
-            frameQuantity:30, //bullet amount (though technically infinate currently)
+            frameQuantity:30, //bullet amount (though technically infinite currently)
             active: false, //inactive
             visible: false, //not visible
             key: "virusBullet"
@@ -48,6 +45,7 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
     }
 }
 
+//start of game
 class Scene2 extends Phaser.Scene {
     constructor () {
         super("playGame")  
@@ -105,6 +103,7 @@ class Scene2 extends Phaser.Scene {
             frameRate: 7,
             repeat: -1
         });
+
         // this.anims.create({
         //     key: "explosion_anim",
         //     frames: this.anims.generateFrameNumbers("cellsplosion"),
@@ -137,29 +136,44 @@ class Scene2 extends Phaser.Scene {
                 this.scene.start("gameOver");
             }
 
-        // Create a bunch of blood cell sprites
-        for (let i = 0; i < 24; i++) {
-            let x = Phaser.Math.Between(0, window.innerWidth);
-            let y = Phaser.Math.Between(0, 0);
-            const bloodCell = this.add.sprite(x, y, 'bloodCell');
+        // // Create a bunch of blood cell sprites
 
-            // Generate a random speed between 1 and 3
-            let speedY = Phaser.Math.FloatBetween(0.1, 1.0);
+            this.bloodCells = this.physics.add.group(
+                { 
+                    key: 'bloodCell',
+                    immovable : false,
+                    quantity: 24
+                });
+            
+            this.bloodCells.children.each(function(cell) {
+                    let x = Math.random()*window.innerWidth;
+                    let y = 30;
 
-            this.anims.create({
-                key: "bloodCell_anim",
-                frames: this.anims.generateFrameNumbers("bloodCell"),
-                frameRate: 2,
-                repeat: -1
-            });
+                    // Set the initial position of the bloodCell sprite
+                    cell.x = x;
+                    cell.y = y;
 
-            //Play sprite animation
-            bloodCell.play("bloodCell_anim");
+                    //Set initial speed of bloodCells moving down the screen
+                    let speedY = Phaser.Math.FloatBetween(0.5, 2.5);
+                    cell.speedY = speedY
 
-            // Add the current blood cell sprite and its speed to the arrays
-            bloodCells.push(bloodCell);
-            speeds.push(speedY);
-        }
+                    this.anims.create({
+                        key: "bloodCell_anim",
+                        frames: this.anims.generateFrameNumbers("bloodCell"),
+                        frameRate: 2,
+                        repeat: -1
+                    });
+
+                    //  Play sprite animation
+                    cell.anims.play("bloodCell_anim");
+    
+                    // // Set the bloodCells group as the collider for each individual cell
+                    // this.physics.add.collider(cell, this.bloodCells);
+                    // // //Set bloodCells to collide with virusBullets?
+                    // this.physics.add.collider(cell, this.virusBullet)
+            
+            }, this); //End of bloodCells group
+
 
     }//end of create func
 
@@ -197,7 +211,7 @@ class Scene2 extends Phaser.Scene {
 
         //update position of white blood cells
         this.moveCells();
-        
+
         //below is initialising the virus' movement around the visible screen (bounded by the sprites boundary physics in create method above)
         if (this.cursors.left.isDown && this.blueVirus.x > 0) {
             this.blueVirus.x -= this.speed;
@@ -213,31 +227,37 @@ class Scene2 extends Phaser.Scene {
     
     }//end of update func
 
-    // create the function to move the white blood cells
-    moveCells() {
-        for (let i = 0; i < bloodCells.length; i++) {
-            let bloodCell = bloodCells[i];
-            let speedY = speeds[i];
+        //start of moving bloodCells code
+        moveCells() {
+            this.bloodCells.children.each(function(cell) {
+                // Update the y position of the blood cell sprite
+                cell.y += cell.speedY;
 
-            bloodCell.y += speedY*2;
-
-            // Add any additional logic or checks here
-
-            // Wrap the blood cell sprite around the screen
-            if (bloodCell.y > window.innerHeight) {
-                this.resetCellPos(bloodCell)
-            } 
+                // Reset the x position to a new random value
+                if (cell.y > window.innerHeight) {
+                        this.resetCellPos(cell)
+                    }
+                
+            }, this);
         }
-    }
 
-    //create the reset position function
-    resetCellPos(cell){
-      // put the cell on the top of the window.
-        cell.y = 0;
-      // put the cell on a random position on the x axis
-        const randomX = Phaser.Math.Between(0, window.innerWidth);
-        cell.x = randomX;
-    }
+        resetCellPos(cell) {
+            // Put the cell on the top of the window.
+            cell.y = 0;
+
+            // Generate a non-zero random speed for the blood cell
+            let newSpeedY;
+            do {
+                newSpeedY = Phaser.Math.Between(1, 5);
+            } while (newSpeedY === 0);
+            cell.speedY = newSpeedY;
+            console.log("SpeedY", cell.speedY)
+
+            // Put the cell on a new random position on the x-axis
+            const randomX = Phaser.Math.Between(5, window.innerWidth-5 );
+            cell.x = randomX;
+
+        } //end of moving bloodCells code
 
 }//end bracket
 
