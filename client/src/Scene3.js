@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import {getUsers} from '/src/services.js'; 
 
 class Scene3 extends Phaser.Scene {
     constructor () {
@@ -23,11 +24,18 @@ class Scene3 extends Phaser.Scene {
         this.add.text(canvasWidth/2, 300, this.playerName +" : " + this.finalScore + " pts",{ font: '46px', fill: '#ffffff' }).setOrigin(0.5)
 
         //LeaderBoard needs to extract names and scores from the database
-        const results = []
-        const data = fetch('http://localhost:9000/api/scores_db/')
-        .then(res => res.json())
-        .then(results => console.log(results))
-        .catch(err => console.log(err.response))
+        // const results = []
+        // const data = fetch('http://localhost:9000/api/scores_db/')
+        // .then(res => res.json())
+        // .then(results => console.log(results))
+        // .catch(err => console.log(err.response))
+
+        try {
+            // Call the postUser function from services.js to post the data to the server
+            const data = getUsers();
+            console.log(data)
+        } 
+        catch (error) {console.error(error);}
 
         
     }
