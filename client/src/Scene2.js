@@ -57,7 +57,8 @@ class Scene2 extends Phaser.Scene {
         this.screenHeight = innerHeight; 
         this.virusBulletGroup; //shoot
 
-        this.score = 10000;
+        this.score = 0;
+        this.healthPoints = 2000;
         this.gameOverStatus = false;
     }
 
@@ -76,8 +77,8 @@ class Scene2 extends Phaser.Scene {
         this.addEvents();
 
         //retrieve playerName and Id from memory
-        const playerName = JSON.parse(sessionStorage.getItem('data')).userName;
-        const playerId = JSON.parse(sessionStorage.getItem('playerId')).playerId;
+        this.playerName = JSON.parse(sessionStorage.getItem('data')).userName;
+        this.playerId = JSON.parse(sessionStorage.getItem('playerId')).playerId;
 
         const middleOfScreenH = this.screenHeight / 2
         const middleOfScreenW = this.screenWidth / 2;
@@ -88,7 +89,7 @@ class Scene2 extends Phaser.Scene {
         this.background.setScale(2);
     
         // Create the player name text 
-        this.playerNameText = this.add.text(window.innerWidth /2, 20, playerName , {fontSize: "20pt"});
+        this.playerNameText = this.add.text(window.innerWidth /2, 20, this.playerName , {fontSize: "20pt"});
         this.playerNameText.setOrigin(0.5);
 
         // Create the health points text 
@@ -127,30 +128,8 @@ class Scene2 extends Phaser.Scene {
         //play the animations
         this.blueVirus.play("blueVirus_anim");
 
-        //simulate a game over to update users scores.
-        const finalScore = this.score;
-        sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
     
-        
-        if (this.gameOverStatus == true){
-            this.scene.start("gameOver");
-        }
-
-        fetch('http://localhost:9000/api/scores_db/' + playerId, {
-            method: 'PUT',
-            body: JSON.stringify({
-                name:playerName,
-                highScore:finalScore
-            }),
-            headers: { 'Content-type': 'application/json' }
-        })
-            .then(res => res.json())
-            .catch(err => console.log(err.response))
-
-         
-
-        // // Create a bunch of blood cell sprites
-
+        // Create a bunch of blood cell sprites
         this.anims.create({
             key: "bloodCell_anim",
             frames: this.anims.generateFrameNumbers("bloodCell"),
@@ -182,13 +161,11 @@ class Scene2 extends Phaser.Scene {
 
                 // // Set the bloodCells group as the collider for each individual cell?
                 // this.physics.add.collider(cell, this.bloodCells);
-                // // //Set bloodCells to collide with virusBullets?
+                // // //Set bloodCells to collide with virusBullets? - goes in Update maybe
                 // this.physics.add.collider(cell, this.virusBullet)
         
         }, this); //End of bloodCells group
         
-
-
 
     }//end of create func
 
@@ -240,16 +217,54 @@ class Scene2 extends Phaser.Scene {
             this.blueVirus.y += this.speed;
         }
 
-        //  // Check for collision between blood cell and otherObject
-        //  this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
-        //     // Increment the score when collision occurs
-        //     this.score += 100;
+         // Check for collision between blood cell and virusBullets
+         //this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
+            // Increment the score when collision occurs
+            this.score += 100;
 
             // Update the score text
             this.scoreText.setText("Score: " + this.score);
         // });
+
+        // Check for collision between bloodCells and blueVirus
+         //this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
+            // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
+            if (this.healthPoints == 0) {
+                this.gameOverStatus = true;
+            } else {
+                
+                this.healthPoints -= 10;
+            }
+            
+            // Update the score text
+            this.healthPointsText.setText("HP: " + this.healthPoints);
+        // });
+  
+        if (this.gameOverStatus == true){
+            this.scene.start("gameOver");
+            //simulate a game over to update users scores.
+            let finalScore = this.score;
+            sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
+
+            // could add a fetch here and compare highScore to finalScore before updating
+            // would mean we don't have to wrangle the data much on the leader board
+            fetch('http://localhost:9000/api/scores_db/' + this.playerId, {
+                method: 'PUT',
+                body: JSON.stringify({
+                    name:this.playerName,
+                    highScore:finalScore
+            }),
+            headers: { 'Content-type': 'application/json' }
+            })
+            .then(res => res.json())
+            .catch(err => console.log(err.response))
+      
+        }
+
     
     }//end of update func
+
+    
 
         //start of moving bloodCells code
         moveCells() {
