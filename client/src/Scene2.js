@@ -253,21 +253,6 @@ class Scene2 extends Phaser.Scene {
             console.log('W key pressed')
         }
         
-        // if (this.cursors.left.isDown ) {
-        //     this.blueVirus.x -= this.speed;
-        // } else if (this.cursors.right.isDown ) {
-        //     this.blueVirus.x += this.speed;
-        // }
-
-        // if (this.cursors.up.isDown ) {
-        //     this.blueVirus.y -= this.speed;
-        // } else if (this.cursors.down.isDown) {
-        //     this.blueVirus.y += this.speed;
-        // }
-    
-
-
-        
 
          // Check for collision between blood cell and virusBullets
          //this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
@@ -291,7 +276,7 @@ class Scene2 extends Phaser.Scene {
             // Update the score text
             this.healthPointsText.setText("HP: " + this.healthPoints);
         // });
-  
+
         if (this.gameOverStatus){
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
