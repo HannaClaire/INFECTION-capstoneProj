@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import {putUser} from '/src/services.js'
 
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y) {
@@ -248,7 +249,8 @@ class Scene2 extends Phaser.Scene {
             // Update the score text
             this.healthPointsText.setText("HP: " + this.healthPoints);
         // });
-  
+
+
         if (this.gameOverStatus){
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
@@ -258,20 +260,35 @@ class Scene2 extends Phaser.Scene {
             let finalScore = this.score;
             sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
 
-            // could add a fetch here and compare highScore to finalScore before updating
-            // would mean we don't have to wrangle the data much on the leader board
-            fetch('http://localhost:9000/api/scores_db/' + this.playerId, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    name:this.playerName,
-                    highScore:finalScore
-            }),
-            headers: { 'Content-type': 'application/json' }
-            })
-            .then(res => res.json())
-            .catch(err => console.log(err.response))
+            // Get the player's id from the session storage
+            const playerIdRtn = JSON.parse(sessionStorage.getItem('playerId')).playerId;
+         
+            if (!playerIdRtn) {
+                console.error("Player ID not found in session storage.");
+                return;
+            }
+
+            try {
+                // Get the player's name from the session storage
+                const playerName = JSON.parse(sessionStorage.getItem('data')).userName;
+
+                // Create an updated payload with the new high score
+                const updatedPayload = {
+                    _id: playerIdRtn,
+                    name: playerName,
+                    highScore: finalScore
+                };
+
+                // Call the putUser function from services.js to update the player's score in the server
+                const data = putUser(updatedPayload);
+
+                console.log("Updated user data:", data); // You can check the updated user data if needed
+            } catch (error) {
+                console.error(error);
+            }
+        
       
-        }
+    }
 
     
     }//end of update func
