@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import WebFontFile from '/src/WebFontFile'
 
 class Scene3 extends Phaser.Scene {
     constructor () {
@@ -7,20 +8,22 @@ class Scene3 extends Phaser.Scene {
 
     preload(){
     
+        const fonts = new WebFontFile(this.load, 'Bungee')
+		this.load.addFile(fonts)
     }
 
     create() {  
         this.cameras.main.setBackgroundColor(0x0760f0)
         const canvasWidth = this.scale.canvas.width;
        // const canvasHeight = this.scale.canvas.height;
-        const text = this.add.text(canvasWidth/2, 100, "GAME OVER!" ,{ font: '76px'}).setOrigin(0.5)
+        const text = this.add.text(canvasWidth/2, 100, "GAME OVER!" ,{ fontFamily: 'Bungee', font: '76px'}).setOrigin(0.5)
 
         //Display name and score
         this.playerName = JSON.parse(sessionStorage.getItem('data')).userName;
         this.finalScore = JSON.parse(sessionStorage.getItem('score')).score;
         
         //display player's final score 
-        this.add.text(canvasWidth/2, 200, this.playerName +" : " + this.finalScore + " pts",{ font: '46px', fill: '#000000' }).setOrigin(0.5)
+        this.add.text(canvasWidth/2, 200, this.playerName +" : " + this.finalScore + " pts",{ fontFamily: 'Bungee',font: '46px', fill: '#000000' }).setOrigin(0.5)
 
         //LeaderBoard needs to extract names and scores from the database
         const results = []
@@ -30,7 +33,7 @@ class Scene3 extends Phaser.Scene {
             
             //sort results from highest to low
             results.sort((a, b) => b.highScore - a.highScore);
-            this.add.text(canvasWidth / 2, 350, "Highest Scores", {font: '32px', fill: '#ffffff'}).setOrigin(0.5);
+            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Bungee', font: '32px', fill: '#ffffff'}).setOrigin(0.5);
             
             let yPosition = 400;
 
@@ -41,6 +44,7 @@ class Scene3 extends Phaser.Scene {
 
                 // Display player name and score
                 this.add.text(canvasWidth / 2, yPosition, playerName + ": " + playerScore + " pts", {
+                    fontFamily: 'Bungee',
                     font: '32px',
                     fill: '#ffffff'
                 }).setOrigin(0.5);

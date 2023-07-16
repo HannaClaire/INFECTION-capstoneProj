@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-
+import WebFontFile from '/src/WebFontFile'
 
 class Scene1 extends Phaser.Scene {
     constructor () {
@@ -7,6 +7,9 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
+		const fonts = new WebFontFile(this.load, 'Bungee')
+		this.load.addFile(fonts)
+
         // this.load.image("virusBullet", "public/assets/images/virusBullet.png" )
         this.load.image("gutsy", "public/assets/images/gutsy.png");
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
@@ -52,8 +55,8 @@ class Scene1 extends Phaser.Scene {
             //Text around screen
             const canvasWidth = this.scale.canvas.width;
             const canvasHeight = this.scale.canvas.height;
-            const welcome = this.add.text(canvasWidth/2, 100, "Welcome to Infection!", {fontSize: "36pt", align: "center", color:"black", position: "absolute"})
-            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontSize: "16pt", align: "center", position: "absolute"});
+            const welcome = this.add.text(canvasWidth/2, 100, "Welcome to Infection!", {fontFamily: 'Bungee',fontSize: "36pt", align: "center", color:"black", position: "absolute"})
+            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontFamily: 'Bungee', fontSize: "16pt", align: "center", position: "absolute"});
             label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
             welcome.setOrigin(0.5);
 
