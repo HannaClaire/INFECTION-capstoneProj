@@ -69,9 +69,11 @@ class Scene2 extends Phaser.Scene {
             frameWidth: 41,
             frameHeight: 40
         });
-
     }
 
+    
+
+    
     create() {
 
         this.addEvents();
@@ -104,6 +106,7 @@ class Scene2 extends Phaser.Scene {
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
         
         this.cursors = this.input.keyboard.createCursorKeys();
+        
 
         this.virusBulletGroup = new VirusBulletGroup(this);
         this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
@@ -126,6 +129,15 @@ class Scene2 extends Phaser.Scene {
         //     repeat: 0,
         //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
         // });
+        let keyA;
+        let keyS;
+        let keyD;
+        let keyW;
+    
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
 
         //play the animations
@@ -169,7 +181,9 @@ class Scene2 extends Phaser.Scene {
         
         }, this); //End of bloodCells group
         
+    let keys = this.input.keyboard.addKeys({ up: 'W', left: 'A', down: 'S', right: 'D' });
 
+        
     }//end of create func
 
 
@@ -212,19 +226,48 @@ class Scene2 extends Phaser.Scene {
 
         //update position of white blood cells
         this.moveCells();
-
+        console.log("cursors", this.cursors)
         //below is initialising the virus' movement around the visible screen (bounded by the sprites boundary physics in create method above)
-        if (this.cursors.left.isDown && this.blueVirus.x > 0) {
-            this.blueVirus.x -= this.speed;
-        } else if (this.cursors.right.isDown && this.blueVirus.x < this.screenWidth) {
-            this.blueVirus.x += this.speed;
-        }
 
-        if (this.cursors.up.isDown && this.blueVirus.y > 0) {
-            this.blueVirus.y -= this.speed;
-        } else if (this.cursors.down.isDown && this.blueVirus.y < this.screenHeight) {
+        let keyA;
+        let keyS;
+        let keyD;
+        let keyW;
+
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+
+        if (keyA.isDown || this.cursors.left.isDown) {
+            this.blueVirus.x -= this.speed;
+            console.log('A key pressed')
+        } else if (keyS.isDown || this.cursors.down.isDown) {
             this.blueVirus.y += this.speed;
+            console.log('S key pressed')
+        } else if (keyD.isDown || this.cursors.right.isDown) {
+            this.blueVirus.x += this.speed;
+            console.log('D key pressed')
+        } else if (keyW.isDown || this.cursors.up.isDown) {
+            this.blueVirus.y -= this.speed;
+            console.log('W key pressed')
         }
+        
+        // if (this.cursors.left.isDown ) {
+        //     this.blueVirus.x -= this.speed;
+        // } else if (this.cursors.right.isDown ) {
+        //     this.blueVirus.x += this.speed;
+        // }
+
+        // if (this.cursors.up.isDown ) {
+        //     this.blueVirus.y -= this.speed;
+        // } else if (this.cursors.down.isDown) {
+        //     this.blueVirus.y += this.speed;
+        // }
+    
+
+
+        
 
          // Check for collision between blood cell and virusBullets
          //this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
