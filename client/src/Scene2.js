@@ -56,6 +56,9 @@ class Scene2 extends Phaser.Scene {
         this.screenWidth = innerWidth; 
         this.screenHeight = innerHeight; 
         this.virusBulletGroup; //shoot
+
+        this.score = 10000;
+        this.gameOverStatus = false;
     }
 
     preload(){
@@ -84,10 +87,18 @@ class Scene2 extends Phaser.Scene {
         this.background = this.add.tileSprite(0, 0, window.innerWidth, window.innerHeight, "gutsy");
         this.background.setScale(2);
     
-        // Create the text object and set its properties
+        // Create the player name text 
         this.playerNameText = this.add.text(window.innerWidth /2, 20, playerName , {fontSize: "20pt"});
         this.playerNameText.setOrigin(0.5);
 
+        // Create the health points text 
+        this.healthPointsText = this.add.text(10, 10, "HP: 50" , {fontSize: "20pt"});
+        this.healthPointsText.setOrigin(0,0)
+        
+        // Create the scoreText 
+        this.scoreText = this.add.text(window.innerWidth - 10, 10, "SCORE: ", {fontSize: "20px"});
+        this.scoreText.setOrigin(1, 0);
+        
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.virusBulletGroup = new VirusBulletGroup(this);
@@ -117,9 +128,14 @@ class Scene2 extends Phaser.Scene {
         this.blueVirus.play("blueVirus_anim");
 
         //simulate a game over to update users scores.
-        const finalScore = 400;
+        const finalScore = this.score;
         sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
     
+        
+        if (this.gameOverStatus == true){
+            this.scene.start("gameOver");
+        }
+
         fetch('http://localhost:9000/api/scores_db/' + playerId, {
             method: 'PUT',
             body: JSON.stringify({
@@ -131,48 +147,47 @@ class Scene2 extends Phaser.Scene {
             .then(res => res.json())
             .catch(err => console.log(err.response))
 
-            const gameOverStatus = false;
-            if (gameOverStatus == true){
-                this.scene.start("gameOver");
-            }
+         
 
         // // Create a bunch of blood cell sprites
 
-            this.bloodCells = this.physics.add.group(
-                { 
-                    key: 'bloodCell',
-                    immovable : false,
-                    quantity: 24
-                });
+        this.anims.create({
+            key: "bloodCell_anim",
+            frames: this.anims.generateFrameNumbers("bloodCell"),
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.bloodCells = this.physics.add.group(
+            { 
+                key: 'bloodCell',
+                immovable : false,
+                quantity: 24
+            });
+        
+        this.bloodCells.children.each(function(cell) {
+                let x = Math.random()*window.innerWidth;
+                let y = 40;
+
+                // Set the initial position of the bloodCell sprite
+                cell.x = x;
+                cell.y = y;
+
+                //Set initial speed of bloodCells moving down the screen
+                let speedY = Phaser.Math.FloatBetween(0.5, 2.5);
+                cell.speedY = speedY;
             
-            this.bloodCells.children.each(function(cell) {
-                    let x = Math.random()*window.innerWidth;
-                    let y = 40;
+                //  Play sprite animation
+                cell.anims.play("bloodCell_anim");
 
-                    // Set the initial position of the bloodCell sprite
-                    cell.x = x;
-                    cell.y = y;
+                // // Set the bloodCells group as the collider for each individual cell?
+                // this.physics.add.collider(cell, this.bloodCells);
+                // // //Set bloodCells to collide with virusBullets?
+                // this.physics.add.collider(cell, this.virusBullet)
+        
+        }, this); //End of bloodCells group
+        
 
-                    //Set initial speed of bloodCells moving down the screen
-                    let speedY = Phaser.Math.FloatBetween(0.5, 2.5);
-                    cell.speedY = speedY
-
-                    this.anims.create({
-                        key: "bloodCell_anim",
-                        frames: this.anims.generateFrameNumbers("bloodCell"),
-                        frameRate: 2,
-                        repeat: -1
-                    });
-
-                    //  Play sprite animation
-                    cell.anims.play("bloodCell_anim");
-    
-                    // // Set the bloodCells group as the collider for each individual cell
-                    // this.physics.add.collider(cell, this.bloodCells);
-                    // // //Set bloodCells to collide with virusBullets?
-                    // this.physics.add.collider(cell, this.virusBullet)
-            
-            }, this); //End of bloodCells group
 
 
     }//end of create func
@@ -224,6 +239,15 @@ class Scene2 extends Phaser.Scene {
         } else if (this.cursors.down.isDown && this.blueVirus.y < this.screenHeight) {
             this.blueVirus.y += this.speed;
         }
+
+        //  // Check for collision between blood cell and otherObject
+        //  this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
+        //     // Increment the score when collision occurs
+        //     this.score += 100;
+
+            // Update the score text
+            this.scoreText.setText("Score: " + this.score);
+        // });
     
     }//end of update func
 
@@ -251,7 +275,6 @@ class Scene2 extends Phaser.Scene {
                 newSpeedY = Phaser.Math.Between(1, 5);
             } while (newSpeedY === 0);
             cell.speedY = newSpeedY;
-            console.log("SpeedY", cell.speedY)
 
             // Put the cell on a new random position on the x-axis
             const randomX = Phaser.Math.Between(5, window.innerWidth-5 );
