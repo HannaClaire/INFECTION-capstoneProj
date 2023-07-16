@@ -58,7 +58,7 @@ class Scene2 extends Phaser.Scene {
         this.virusBulletGroup; //shoot
 
         this.score = 0;
-        this.healthPoints = 2000;
+        this.healthPoints = 50;
         this.gameOverStatus = false;
     }
 
@@ -99,6 +99,9 @@ class Scene2 extends Phaser.Scene {
         // Create the scoreText 
         this.scoreText = this.add.text(window.innerWidth - 10, 10, "SCORE: ", {fontSize: "20px"});
         this.scoreText.setOrigin(1, 0);
+
+        // Add a keyboard key event to listen for the "y" key press to quit the game
+        this.input.keyboard.on('keydown-Y', this.quitGame, this);
         
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -169,6 +172,12 @@ class Scene2 extends Phaser.Scene {
 
     }//end of create func
 
+
+    // Define the quitGame function
+    quitGame() {
+        this.gameOverStatus = true;
+    }
+
     addEvents(){
         this.input.keyboard.on('keydown-SPACE', () =>{
             this.shootVirusBullet(); // initiates the shooting functionality
@@ -229,18 +238,21 @@ class Scene2 extends Phaser.Scene {
         // Check for collision between bloodCells and blueVirus
          //this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
             // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
-            if (this.healthPoints == 0) {
-                this.gameOverStatus = true;
-            } else {
+            // if (this.healthPoints == 0) {
+            //     this.gameOverStatus = true;
+            // } else {
                 
-                this.healthPoints -= 10;
-            }
+            //     this.healthPoints -= 10;
+            // }
             
             // Update the score text
             this.healthPointsText.setText("HP: " + this.healthPoints);
         // });
   
-        if (this.gameOverStatus == true){
+        if (this.gameOverStatus){
+            //turns off listener for y to quit
+            this.input.keyboard.off('keydown-Y', this.quitGame, this);
+            
             this.scene.start("gameOver");
             //simulate a game over to update users scores.
             let finalScore = this.score;
