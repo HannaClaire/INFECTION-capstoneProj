@@ -73,7 +73,7 @@ class Scene1 extends Phaser.Scene {
                 })
                 .then(res => res.json())
                 .then(data => {
-                    // Access the id property from the parsed data from db res
+                    //Access the id property from the parsed data from db res
                     const playerIdRtn = data._id;
                     //console.log("Object id: ", playerIdRtn);
                     sessionStorage.setItem('playerId', JSON.stringify({ 
