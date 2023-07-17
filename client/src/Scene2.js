@@ -213,7 +213,7 @@ class Scene2 extends Phaser.Scene {
                     console.log("health", this.healthPoints);
                 }
             }
-                console.log(this.healthPoints)
+                //  console.log(this.healthPoints)
         // Update the score text
         this.healthPointsText.setText("HP: " + this.healthPoints);
     }
