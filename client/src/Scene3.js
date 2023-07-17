@@ -28,7 +28,7 @@ class Scene3 extends Phaser.Scene {
 
         //LeaderBoard needs to extract names and scores from the database
         const results = []
-        const data = getUsers () //fetch('http://localhost:9000/api/scores_db/')
+        const data = getUsers () 
         .then(results => {
             
             //sort results from highest to low
