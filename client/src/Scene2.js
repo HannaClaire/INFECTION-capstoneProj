@@ -74,8 +74,6 @@ class Scene2 extends Phaser.Scene {
     }
 
     
-
-    
     create() {
 
         this.addEvents();
@@ -131,16 +129,6 @@ class Scene2 extends Phaser.Scene {
         //     repeat: 0,
         //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
         // });
-        // let keyA;
-        // let keyS;
-        // let keyD;
-        // let keyW;
-    
-        // keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        // keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        // keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        // keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
@@ -241,16 +229,16 @@ class Scene2 extends Phaser.Scene {
 
         if (keyA.isDown || this.cursors.left.isDown) {
             this.blueVirus.x -= this.speed;
-            console.log('A key pressed')
+           // console.log('A key pressed')
         } else if (keyS.isDown || this.cursors.down.isDown) {
             this.blueVirus.y += this.speed;
-            console.log('S key pressed')
+            //console.log('S key pressed')
         } else if (keyD.isDown || this.cursors.right.isDown) {
             this.blueVirus.x += this.speed;
-            console.log('D key pressed')
+           // console.log('D key pressed')
         } else if (keyW.isDown || this.cursors.up.isDown) {
             this.blueVirus.y -= this.speed;
-            console.log('W key pressed')
+            //console.log('W key pressed')
         }
         
 
@@ -309,7 +297,7 @@ class Scene2 extends Phaser.Scene {
                 // Call the putUser function from services.js to update the player's score in the server
                 const data = putUser(updatedPayload);
 
-                console.log("Updated user data:", data); // You can check the updated user data if needed
+                //console.log("Updated user data:", data); // You can check the updated user data if needed
             } catch (error) {
                 console.error(error);
             }
