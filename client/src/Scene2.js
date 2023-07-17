@@ -62,6 +62,10 @@ class Scene2 extends Phaser.Scene {
         this.score = 0;
         this.healthPoints = 50;
         this.gameOverStatus = false;
+
+        this.totalBloodCells = 100; // Total number of blood cells
+        this.remainingBloodCells = this.totalBloodCells; // Remaining blood cells
+      
     }
 
     preload(){
@@ -148,7 +152,7 @@ class Scene2 extends Phaser.Scene {
             { 
                 key: 'bloodCell',
                 immovable : false,
-                quantity: 50
+                quantity: 100
             }).setOrigin(0.5);
         
         this.bloodCells.children.each(function(cell) {
@@ -192,6 +196,14 @@ class Scene2 extends Phaser.Scene {
 
             // Update the score text
             this.scoreText.setText("Score: " + this.score);
+        
+            // Decrement the remaining blood cells count
+        this.remainingBloodCells--;
+
+        // Check if all blood cells are destroyed
+        if (this.remainingBloodCells <= 0) {
+            this.gameOverStatus = true;
+        }
     }
 
     handleblueVirusCollision(blueVirus, bloodCell){
@@ -216,6 +228,14 @@ class Scene2 extends Phaser.Scene {
                 //  console.log(this.healthPoints)
         // Update the score text
         this.healthPointsText.setText("HP: " + this.healthPoints);
+
+        // Decrement the remaining blood cells count
+        this.remainingBloodCells--;
+
+        // Check if all blood cells are destroyed
+        if (this.remainingBloodCells <= 0) {
+            this.gameOverStatus = true;
+        }
     }
 
     // Define the quitGame function
