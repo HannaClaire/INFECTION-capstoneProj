@@ -195,15 +195,23 @@ class Scene2 extends Phaser.Scene {
             this.scoreText.setText("Score: " + this.score);
     }
 
-
     handleblueVirusCollision(blueVirus, bloodCell){
         // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
             if (this.healthPoints === 0) {
                 this.gameOverStatus = true;
             } else {
-
                 this.healthPoints -= 10;
+                const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
+                explosion.play("explosion_anim");
+                explosion.on("animationcomplete", () => {
+                    explosion.destroy();
+                });
                 blueVirus.destroy();
+                if (this.healthPoints <= 0) {
+                    this.healthPoints = 0; // Ensure health points don't go below 0
+                    this.gameOverStatus = true;
+                    console.log("health", this.healthPoints);
+                }
             }
                 console.log(this.healthPoints)
         // Update the score text
