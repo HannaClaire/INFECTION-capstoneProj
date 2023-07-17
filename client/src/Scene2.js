@@ -173,6 +173,15 @@ class Scene2 extends Phaser.Scene {
             this.physics.add.collider(cell, this.blueVirus, this.handleblueVirusCollision, null, this);
         }, this);
 
+        
+        this.flashTween = this.tweens.add({
+            targets: this.blueVirus,
+            duration: 100, // Duration of each flash (in milliseconds)
+            repeat: -1, // Repeat indefinitely
+            yoyo: true, // Reverse the tween for the flashing effect
+            tint: 0xff0000, // Set the tint color to red
+            paused: true // Start the tween paused initially
+        });
     
     }//end of create func
     handleBulletBloodCellCollision(virusBullet, bloodCell) {
@@ -202,6 +211,30 @@ class Scene2 extends Phaser.Scene {
             } else {
                 this.healthPoints -= 10;
                 const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
+
+                this.flashTween.restart(); // tweening for collision 'ouchy' flashing 
+                this.blueVirus.setTint(0xff0000);
+
+                this.time.delayedCall(90, () => { //does double flash once at beginning but not again, not sure why.
+                    this.blueVirus.clearTint();
+                    const flashDuration = 100; 
+                    const flashRepeat = 4;
+                    this.flashTween.stop();
+                    this.blueVirus.clearTint();
+
+                    this.tweens.add({
+                        targets: this.blueVirus,
+                        repeat: flashRepeat - 1, // Repeat the tween (flashRepeat - 1) times
+                        yoyo: true, // Reverse the tween
+                        duration: flashDuration,
+                        tint: 0xff0000, // Set the tint to red
+                        onComplete: () => {
+                            this.blueVirus.clearTint(); // Clear the tint after the flashes
+                        }
+                    });
+                    
+                });
+
                 explosion.play("explosion_anim");
                 explosion.on("animationcomplete", () => {
                     explosion.destroy();
