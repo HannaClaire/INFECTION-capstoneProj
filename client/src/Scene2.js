@@ -189,6 +189,12 @@ class Scene2 extends Phaser.Scene {
 
         bloodCell.destroy();
         virusBullet.destroy();
+
+        // Increment the score when collision occurs
+            this.score += 100;
+
+            // Update the score text
+            this.scoreText.setText("Score: " + this.score);
     }
 
     // Define the quitGame function
@@ -255,6 +261,7 @@ class Scene2 extends Phaser.Scene {
             // this.scoreText.setText("Score: " + this.score);
         // });
         // this.scoreText.setText("Score: " + this.score);
+
         // Check for collision between bloodCells and blueVirus
         // this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
         //     // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
