@@ -14,7 +14,7 @@ class VirusBullet extends Phaser.Physics.Arcade.Sprite{
         this.setVelocity(0, -300);
     }
 
-    preUpdate(time, delta){ //phasers lifecycle method - will shoot infinite amount of lasers as once reaching end of screen it will reset.
+    preUpdate(time, delta){ //phasers lifecycle method - will shoot infinite amount of bullets as once reaching end of screen it will reset.
         super.preUpdate(time, delta)
         
         if (this.y <= 0) {
@@ -31,7 +31,7 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
 
         this.createMultiple({
             classType: VirusBullet,
-            frameQuantity:30, //bullet amount (though technically infinite currently)
+            frameQuantity:1000, //bullet amount (though technically infinite currently)
             active: false, //inactive
             visible: false, //not visible
             key: "virusBullet"
@@ -150,7 +150,7 @@ class Scene2 extends Phaser.Scene {
             { 
                 key: 'bloodCell',
                 immovable : false,
-                quantity: 24
+                quantity: 50
             });
         
         this.bloodCells.children.each(function(cell) {
@@ -162,7 +162,7 @@ class Scene2 extends Phaser.Scene {
                 cell.y = y;
 
                 //Set initial speed of bloodCells moving down the screen
-                let speedY = Phaser.Math.FloatBetween(0.5, 2.5);
+                let speedY = Phaser.Math.FloatBetween(2.5, 5.5);
                 cell.speedY = speedY;
             
                 //  Play sprite animation
@@ -189,6 +189,12 @@ class Scene2 extends Phaser.Scene {
 
         bloodCell.destroy();
         virusBullet.destroy();
+
+        // Increment the score when collision occurs
+            this.score += 100;
+
+            // Update the score text
+            this.scoreText.setText("Score: " + this.score);
     }
 
     // Define the quitGame function
@@ -246,25 +252,18 @@ class Scene2 extends Phaser.Scene {
         }
         
 
-         // Check for collision between blood cell and virusBullets
-        // this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
-            // Increment the score when collision occurs
-            // this.score += 100;
+    
 
-            // Update the score text
-            // this.scoreText.setText("Score: " + this.score);
-        // });
-        // this.scoreText.setText("Score: " + this.score);
         // Check for collision between bloodCells and blueVirus
         // this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
         //     // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
         //     if (this.healthPoints == 0) {
         //         this.gameOverStatus = true;
         //     } else {
-                
+        
         //         this.healthPoints -= 10;
         //     }
-            
+        
             // Update the score text
             this.healthPointsText.setText("HP: " + this.healthPoints);
         // });
