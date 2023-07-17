@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import WebFontFile from '/src/WebFontFile'
+import {getUsers} from '/src/services.js'; 
 
 class Scene3 extends Phaser.Scene {
     constructor () {
@@ -52,6 +53,14 @@ class Scene3 extends Phaser.Scene {
             };
         })
         .catch(err => console.log(err.response))
+
+
+        try {
+            // Call the postUser function from services.js to post the data to the server
+            const data = getUsers();
+            console.log(data)
+        } 
+        catch (error) {console.error(error);}
 
         
     }

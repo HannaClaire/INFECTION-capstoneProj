@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import WebFontFile from '/src/WebFontFile'
+import {postUser} from '/src/services.js'; 
+
 
 class Scene1 extends Phaser.Scene {
     constructor () {
@@ -69,24 +71,19 @@ class Scene1 extends Phaser.Scene {
                 "userName": inputValue
             }));
             //posting name and zero to DB        
-            await fetch('http://localhost:9000/api/scores_db/', {
-                method: 'POST',
-                body: JSON.stringify({name:inputValue,highScore:0}),
-                headers: { 'Content-Type': 'application/json' }
-                })
-                .then(res => res.json())
-                .then(data => {
-                    //Access the id property from the parsed data from db res
-                    const playerIdRtn = data._id;
-                    //console.log("Object id: ", playerIdRtn);
-                    sessionStorage.setItem('playerId', JSON.stringify({ 
-                        "playerId": playerIdRtn
-                        }));
-                    this.inputElement.hidden = true;
-                    this.submitButton.hidden = true;
-                    this.scene.start("playGame");
-                })
-                .catch(err => console.log(err.response))
+            try {
+                // Call the postUser function from services.js to post the data to the server
+                const data = await postUser({ name: inputValue, highScore: 0 });
+    
+                // Access the id property from the response data
+                const playerIdRtn = data._id;
+    
+                sessionStorage.setItem('playerId', JSON.stringify({ "playerId": playerIdRtn }));
+                this.inputElement.hidden = true;
+                this.submitButton.hidden = true;
+                this.scene.start("playGame");
+            } 
+            catch (error) {console.error(error);}
         }  
     
 }//end bracket

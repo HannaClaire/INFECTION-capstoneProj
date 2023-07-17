@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:9000/scores_db/users/';
+const baseURL = 'http://localhost:9000/api/scores_db/';
 
 //this would fetch all of our users
 export const getUsers = () => {
@@ -35,8 +35,5 @@ export const putUser = (updatedPayload) => {
 }
 
 
-
-
-export default services
 
 

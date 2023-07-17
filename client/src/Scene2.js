@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import {putUser} from '/src/services.js'
 
 
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
@@ -70,9 +71,11 @@ class Scene2 extends Phaser.Scene {
             frameWidth: 41,
             frameHeight: 40
         });
-
     }
 
+    
+
+    
     create() {
 
         this.addEvents();
@@ -105,6 +108,7 @@ class Scene2 extends Phaser.Scene {
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
         
         this.cursors = this.input.keyboard.createCursorKeys();
+        
 
         this.virusBulletGroup = new VirusBulletGroup(this);
         this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
@@ -127,6 +131,15 @@ class Scene2 extends Phaser.Scene {
         //     repeat: 0,
         //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
         // });
+        let keyA;
+        let keyS;
+        let keyD;
+        let keyW;
+    
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
 
         //play the animations
@@ -169,8 +182,8 @@ class Scene2 extends Phaser.Scene {
                 // this.physics.add.collider(cell, this.virusBullet)
         
         }, this); //End of bloodCells group
+       
         
-
     }//end of create func
 
 
@@ -213,19 +226,33 @@ class Scene2 extends Phaser.Scene {
 
         //update position of white blood cells
         this.moveCells();
-
+        console.log("cursors", this.cursors)
         //below is initialising the virus' movement around the visible screen (bounded by the sprites boundary physics in create method above)
-        if (this.cursors.left.isDown && this.blueVirus.x > 0) {
-            this.blueVirus.x -= this.speed;
-        } else if (this.cursors.right.isDown && this.blueVirus.x < this.screenWidth) {
-            this.blueVirus.x += this.speed;
-        }
 
-        if (this.cursors.up.isDown && this.blueVirus.y > 0) {
-            this.blueVirus.y -= this.speed;
-        } else if (this.cursors.down.isDown && this.blueVirus.y < this.screenHeight) {
+        let keyA;
+        let keyS;
+        let keyD;
+        let keyW;
+
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+
+        if (keyA.isDown || this.cursors.left.isDown) {
+            this.blueVirus.x -= this.speed;
+            console.log('A key pressed')
+        } else if (keyS.isDown || this.cursors.down.isDown) {
             this.blueVirus.y += this.speed;
+            console.log('S key pressed')
+        } else if (keyD.isDown || this.cursors.right.isDown) {
+            this.blueVirus.x += this.speed;
+            console.log('D key pressed')
+        } else if (keyW.isDown || this.cursors.up.isDown) {
+            this.blueVirus.y -= this.speed;
+            console.log('W key pressed')
         }
+        
 
          // Check for collision between blood cell and virusBullets
          //this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
@@ -249,7 +276,8 @@ class Scene2 extends Phaser.Scene {
             // Update the score text
             this.healthPointsText.setText("HP: " + this.healthPoints);
         // });
-  
+
+
         if (this.gameOverStatus){
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
@@ -259,20 +287,35 @@ class Scene2 extends Phaser.Scene {
             let finalScore = this.score;
             sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
 
-            // could add a fetch here and compare highScore to finalScore before updating
-            // would mean we don't have to wrangle the data much on the leader board
-            fetch('http://localhost:9000/api/scores_db/' + this.playerId, {
-                method: 'PUT',
-                body: JSON.stringify({
-                    name:this.playerName,
-                    highScore:finalScore
-            }),
-            headers: { 'Content-type': 'application/json' }
-            })
-            .then(res => res.json())
-            .catch(err => console.log(err.response))
+            // Get the player's id from the session storage
+            const playerIdRtn = JSON.parse(sessionStorage.getItem('playerId')).playerId;
+         
+            if (!playerIdRtn) {
+                console.error("Player ID not found in session storage.");
+                return;
+            }
+
+            try {
+                // Get the player's name from the session storage
+                const playerName = JSON.parse(sessionStorage.getItem('data')).userName;
+
+                // Create an updated payload with the new high score
+                const updatedPayload = {
+                    _id: playerIdRtn,
+                    name: playerName,
+                    highScore: finalScore
+                };
+
+                // Call the putUser function from services.js to update the player's score in the server
+                const data = putUser(updatedPayload);
+
+                console.log("Updated user data:", data); // You can check the updated user data if needed
+            } catch (error) {
+                console.error(error);
+            }
+        
       
-        }
+    }
 
     
     }//end of update func
