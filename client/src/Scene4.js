@@ -48,9 +48,9 @@ class VirusBulletGroup extends Phaser.Physics.Arcade.Group //shoot
 }
 
 //start of game
-class Scene2 extends Phaser.Scene {
+class Scene4 extends Phaser.Scene {
     constructor () {
-        super("playGame")  
+        super("playGame2")  
 
         this.blueVirus = null;
         this.cursors = null;
@@ -106,7 +106,6 @@ class Scene2 extends Phaser.Scene {
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
-        this.add.text(window.innerWidth - 100, 10, "Y to quit", {fontSize: "20px"})
         
         this.cursors = this.input.keyboard.createCursorKeys();
         
@@ -350,4 +349,4 @@ class Scene2 extends Phaser.Scene {
 
 }//end bracket
 
-export default Scene2
+export default Scene4
