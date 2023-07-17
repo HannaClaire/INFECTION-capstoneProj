@@ -16,6 +16,12 @@ class Scene3 extends Phaser.Scene {
     create() {  
         this.cameras.main.setBackgroundColor(0x0760f0)
         const canvasWidth = this.scale.canvas.width;
+
+        // Add a keyboard key event to listen for the "y" key press to quit the game
+        this.input.keyboard.on('keydown-P', this.playAgain, this);
+        this.add.text(window.innerWidth - 100, 20, "Play again = p", {fontSize: "20px"}).setOrigin(1);
+
+        
        // const canvasHeight = this.scale.canvas.height;
         const text = this.add.text(canvasWidth/2, 100, "GAME OVER!" ,{ fontFamily: 'Bungee', fontSize: "76pt", align: "center", color:"black", position: "absolute"}).setOrigin(0.5)
 
@@ -53,7 +59,11 @@ class Scene3 extends Phaser.Scene {
             };
         })
         .catch(err => console.log(err.response))
+    
         
+    }
+    playAgain(){
+    this.scene.start("playGame2");
     }
 
     update(){

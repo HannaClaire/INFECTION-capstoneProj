@@ -3,6 +3,7 @@ import { Scene, Animations, Game, WEBGL, GameObjects } from 'phaser';
 import Scene1 from "./Scene1"
 import Scene2 from "./Scene2"
 import Scene3 from "./Scene3"
+import Scene4 from "./Scene4"
 
 const canvas = document.getElementById('game');
 
@@ -56,7 +57,7 @@ const config = {
   //   createContainer: true
   // },
   scene: [
-    Scene1, Scene2, Scene3
+    Scene1, Scene2, Scene3, Scene4
   ]
 }
 

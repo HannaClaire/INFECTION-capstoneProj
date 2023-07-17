@@ -106,9 +106,9 @@ class Scene4 extends Phaser.Scene {
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
+        this.add.text(window.innerWidth - 300, 10, "Quit = y", {fontSize: "20px"})
         
         this.cursors = this.input.keyboard.createCursorKeys();
-        
 
         this.virusBulletGroup = new VirusBulletGroup(this);
         this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
@@ -150,7 +150,7 @@ class Scene4 extends Phaser.Scene {
             { 
                 key: 'bloodCell',
                 immovable : false,
-                quantity: 50
+                quantity: 100
             });
         
         this.bloodCells.children.each(function(cell) {

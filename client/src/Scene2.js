@@ -111,7 +111,7 @@ class Scene2 extends Phaser.Scene {
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
         this.add.text(window.innerWidth - 300, 10, "Quit = y", {fontSize: "20px"})
-        this.add.text(window.innerWidth - 100, 10, "Y to quit", {fontSize: "20px"})
+        
         
         this.cursors = this.input.keyboard.createCursorKeys();
         
