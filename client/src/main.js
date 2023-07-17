@@ -39,7 +39,7 @@ const config = {
   width: window.innerWidth,
   height: window.innerHeight,
   canvas,
-  backgroundColor: 0xB61731,
+  backgroundColor: '#6B1518',
   pixelArt: true,
   fps: {
       target: 60,

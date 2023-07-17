@@ -9,11 +9,12 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
-        const fonts = new WebFontFile(this.load, 'Jua')
+        const fonts = new WebFontFile(this.load, 'BIZ UDPGothic')
 		this.load.addFile(fonts)
 
         // this.load.image("virusBullet", "public/assets/images/virusBullet.png" )
         this.load.image("gutsy", "public/assets/images/gutsy.png");
+        this.load.image("Biohazard", "public/assets/images/Biohazard.png");
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
             frameWidth: 50,
             frameHeight: 50
@@ -26,6 +27,11 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {   
+
+
+        const X = window.innerWidth / 2;
+        const Y = window.innerHeight / 2;
+        this.background = this.add.image(X, Y, "Biohazard");
         
         const container = document.createElement("div");//creating a container/parent element for the child elements
         container.className = "container";
@@ -61,10 +67,19 @@ class Scene1 extends Phaser.Scene {
             //Text around screen
             const canvasWidth = this.scale.canvas.width;
             const canvasHeight = this.scale.canvas.height;
-            const welcome = this.add.text(canvasWidth/2, 100, "INFECTION", {fontFamily: 'Jua',fontSize: "100pt", align: "center", color:"black", position: "absolute"})
+            const welcome = this.add.text(canvasWidth / 2, 100, "INFECTION", {
+                fontFamily: 'BIZ UDPGothic', fontSize: "150pt", align: "center", color: "#3D0000", position: "absolute"})
             const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontFamily: 'Bungee', fontSize: "16pt", align: "center", position: "absolute"});
             label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
             welcome.setOrigin(0.5);
+
+        this.tweens.add({
+            targets: welcome,
+            duration: 1000,
+            repeat: -1,
+            yoyo: true, // Repeat the tween in reverse
+            repeat: -1 // Repeat indefinitely
+        });
 
         }
 
