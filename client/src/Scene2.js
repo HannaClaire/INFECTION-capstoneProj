@@ -76,6 +76,8 @@ class Scene2 extends Phaser.Scene {
     
     create() {
 
+
+        this.physics.start();
         this.addEvents();
 
         //retrieve playerName and Id from memory
@@ -112,6 +114,7 @@ class Scene2 extends Phaser.Scene {
         this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
         //below needs the physics to create an 'arcadeSprite' object to allow for additional behaviours/methods
         this.blueVirus = this.physics.add.sprite(window.innerWidth / 2, window.innerHeight, "blueVirus");
+        
         this.blueVirus.setCollideWorldBounds(true) //sets boundaries around the window
         this.blueVirus.flipX = true;
         
@@ -122,18 +125,19 @@ class Scene2 extends Phaser.Scene {
             repeat: -1
         });
 
-        // this.anims.create({
-        //     key: "explosion_anim",
-        //     frames: this.anims.generateFrameNumbers("cellsplosion"),
-        //     frameRate: 10,
-        //     repeat: 0,
-        //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
-        // });
+        this.anims.create({
+            key: "explosion_anim",
+            frames: this.anims.generateFrameNumbers("cellsplosionSml"),
+            frameRate: 11,
+            repeat: 0,
+            hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
+        });
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
 
-    
+        
+
         // Create a bunch of blood cell sprites
         this.anims.create({
             key: "bloodCell_anim",
@@ -164,16 +168,28 @@ class Scene2 extends Phaser.Scene {
                 //  Play sprite animation
                 cell.anims.play("bloodCell_anim");
 
-                // // Set the bloodCells group as the collider for each individual cell?
-                // this.physics.add.collider(cell, this.bloodCells);
-                // // //Set bloodCells to collide with virusBullets? - goes in Update maybe
-                // this.physics.add.collider(cell, this.virusBullet)
-        
-        }, this); //End of bloodCells group
-       
-        
+                // Set the bloodCells group as the collider for each individual cell?
+            this.physics.add.collider(this.virusBulletGroup, cell, this.handleBulletBloodCellCollision, null, this);
+        }, this);
+                
+    
+    
+    
     }//end of create func
 
+    handleBulletBloodCellCollision(virusBullet, bloodCell) {
+        // Handle the collision between bullet and blood cell
+        // For example, destroy the blood cell and remove the bullet
+        const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
+        explosion.play("explosion_anim");
+
+        explosion.on("animationcomplete", () => {
+            explosion.destroy();
+        });
+
+        bloodCell.destroy();
+        virusBullet.destroy();
+    }
 
     // Define the quitGame function
     quitGame() {
@@ -193,19 +209,7 @@ class Scene2 extends Phaser.Scene {
         this.virusBulletGroup.fireBullet(this.blueVirus.x, this.blueVirus.y -20)
     }
 
-    // handleBulletBloodCellCollision(virusBullet, bloodCell) {
-    //     // Handle the collision between bullet and blood cell
-    //     // For example, destroy the blood cell and remove the bullet
-    //     const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosion");
-    //     explosion.play("explosion_anim");
 
-    //     explosion.on("animationcomplete", () => {
-    //         explosion.destroy();
-    //     });
-
-    //     bloodCell.destroy();
-    //     virusBullet.destroy();
-    // }
 
     update(){
     
@@ -214,7 +218,7 @@ class Scene2 extends Phaser.Scene {
 
         //update position of white blood cells
         this.moveCells();
-        console.log("cursors", this.cursors)
+    
         //below is initialising the virus' movement around the visible screen (bounded by the sprites boundary physics in create method above)
 
         let keyA;
@@ -243,23 +247,23 @@ class Scene2 extends Phaser.Scene {
         
 
          // Check for collision between blood cell and virusBullets
-         //this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
+        // this.physics.add.collider(this.bloodCells, this.virusBullets, function(bloodCell, virusBullet) {
             // Increment the score when collision occurs
-            this.score += 100;
+            // this.score += 100;
 
             // Update the score text
-            this.scoreText.setText("Score: " + this.score);
+            // this.scoreText.setText("Score: " + this.score);
         // });
-
+        // this.scoreText.setText("Score: " + this.score);
         // Check for collision between bloodCells and blueVirus
-         //this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
-            // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
-            // if (this.healthPoints == 0) {
-            //     this.gameOverStatus = true;
-            // } else {
+        // this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
+        //     // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
+        //     if (this.healthPoints == 0) {
+        //         this.gameOverStatus = true;
+        //     } else {
                 
-            //     this.healthPoints -= 10;
-            // }
+        //         this.healthPoints -= 10;
+        //     }
             
             // Update the score text
             this.healthPointsText.setText("HP: " + this.healthPoints);
