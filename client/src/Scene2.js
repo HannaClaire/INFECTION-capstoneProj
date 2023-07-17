@@ -63,7 +63,7 @@ class Scene2 extends Phaser.Scene {
         this.healthPoints = 50;
         this.gameOverStatus = false;
 
-        this.totalBloodCells = 100; // Total number of blood cells
+        this.totalBloodCells = 50; // Total number of blood cells
         this.remainingBloodCells = this.totalBloodCells; // Remaining blood cells
       
     }
@@ -110,6 +110,7 @@ class Scene2 extends Phaser.Scene {
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
+        this.add.text(window.innerWidth - 300, 10, "Quit = y", {fontSize: "20px"})
         
         this.cursors = this.input.keyboard.createCursorKeys();
         
@@ -152,7 +153,7 @@ class Scene2 extends Phaser.Scene {
             { 
                 key: 'bloodCell',
                 immovable : false,
-                quantity: 100
+                quantity: this.totalBloodCells
             }).setOrigin(0.5);
         
         this.bloodCells.children.each(function(cell) {
