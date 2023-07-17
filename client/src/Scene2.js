@@ -127,7 +127,7 @@ class Scene2 extends Phaser.Scene {
 
         this.anims.create({
             key: "explosion_anim",
-            frames: this.anims.generateFrameNumbers("cellsplosion"),
+            frames: this.anims.generateFrameNumbers("cellsplosionSml"),
             frameRate: 11,
             repeat: 0,
             hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
@@ -180,7 +180,7 @@ class Scene2 extends Phaser.Scene {
     handleBulletBloodCellCollision(virusBullet, bloodCell) {
         // Handle the collision between bullet and blood cell
         // For example, destroy the blood cell and remove the bullet
-        const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosion");
+        const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
         explosion.play("explosion_anim");
 
         explosion.on("animationcomplete", () => {
