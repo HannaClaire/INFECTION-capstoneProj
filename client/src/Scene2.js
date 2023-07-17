@@ -170,13 +170,9 @@ class Scene2 extends Phaser.Scene {
 
                 // Set the bloodCells group as the collider for each individual cell?
             this.physics.add.collider(this.virusBulletGroup, cell, this.handleBulletBloodCellCollision, null, this);
-            this.physics.add.collider(this.blueVirus, cell, this.handleblueVirusCollision, null, this);
+            this.physics.add.collider(cell, this.blueVirus, this.handleblueVirusCollision, null, this);
         }, this);
 
-
-                
-    
-    
     
     }//end of create func
     handleBulletBloodCellCollision(virusBullet, bloodCell) {
@@ -207,6 +203,7 @@ class Scene2 extends Phaser.Scene {
             } else {
 
                 this.healthPoints -= 10;
+                blueVirus.destroy();
             }
                 console.log(this.healthPoints)
         // Update the score text
