@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import {putUser} from '/src/services.js'
 
+
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y) {
         super(scene, x, y, "virusBullet")

@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "phaser": "^3.60.0"
+  },
+  "dependencies": {
+    "webfontloader": "^1.6.28"
   }
 }
