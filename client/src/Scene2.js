@@ -125,13 +125,13 @@ class Scene2 extends Phaser.Scene {
             repeat: -1
         });
 
-        // this.anims.create({
-        //     key: "explosion_anim",
-        //     frames: this.anims.generateFrameNumbers("cellsplosion"),
-        //     frameRate: 10,
-        //     repeat: 0,
-        //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
-        // });
+        this.anims.create({
+            key: "explosion_anim",
+            frames: this.anims.generateFrameNumbers("cellsplosion"),
+            frameRate: 11,
+            repeat: 0,
+            hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
+        });
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
