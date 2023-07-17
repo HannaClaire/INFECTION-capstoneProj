@@ -69,7 +69,7 @@ class Scene2 extends Phaser.Scene {
 
         this.load.spritesheet("bloodCell", "/public/assets/spritesheets/whitebc.png",{
             frameWidth: 41,
-            frameHeight: 40
+            frameHeight: 38
         });
     }
 
@@ -109,7 +109,6 @@ class Scene2 extends Phaser.Scene {
         
         this.cursors = this.input.keyboard.createCursorKeys();
         
-
         this.virusBulletGroup = new VirusBulletGroup(this);
         this.virusBulletGroup.getChildren().forEach((VirusBullet) =>  {VirusBullet.setScale(0.12)});
         //below needs the physics to create an 'arcadeSprite' object to allow for additional behaviours/methods
@@ -130,13 +129,12 @@ class Scene2 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("cellsplosionSml"),
             frameRate: 11,
             repeat: 0,
+            flipX : true,
             hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
         });
 
         //play the animations
         this.blueVirus.play("blueVirus_anim");
-
-        
 
         // Create a bunch of blood cell sprites
         this.anims.create({
@@ -151,7 +149,7 @@ class Scene2 extends Phaser.Scene {
                 key: 'bloodCell',
                 immovable : false,
                 quantity: 50
-            });
+            }).setOrigin(0.5);
         
         this.bloodCells.children.each(function(cell) {
                 let x = Math.random()*window.innerWidth;
@@ -162,7 +160,7 @@ class Scene2 extends Phaser.Scene {
                 cell.y = y;
 
                 //Set initial speed of bloodCells moving down the screen
-                let speedY = Phaser.Math.FloatBetween(2.5, 5.5);
+                let speedY = Phaser.Math.FloatBetween(0.5, 5.5);
                 cell.speedY = speedY;
             
                 //  Play sprite animation
@@ -178,8 +176,9 @@ class Scene2 extends Phaser.Scene {
     handleBulletBloodCellCollision(virusBullet, bloodCell) {
         // Handle the collision between bullet and blood cell
         // For example, destroy the blood cell and remove the bullet
-        const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
+        const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml").setOrigin(0.5);
         explosion.play("explosion_anim");
+        // explosion.setOrigin(0.5,0.5);
 
         explosion.on("animationcomplete", () => {
             explosion.destroy();
@@ -203,6 +202,7 @@ class Scene2 extends Phaser.Scene {
                 this.healthPoints -= 10;
                 const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
                 explosion.play("explosion_anim");
+                explosion.setOrigin(0.5);
                 explosion.on("animationcomplete", () => {
                     explosion.destroy();
                 });
