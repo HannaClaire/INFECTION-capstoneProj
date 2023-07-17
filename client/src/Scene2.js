@@ -170,13 +170,15 @@ class Scene2 extends Phaser.Scene {
 
                 // Set the bloodCells group as the collider for each individual cell?
             this.physics.add.collider(this.virusBulletGroup, cell, this.handleBulletBloodCellCollision, null, this);
+            this.physics.add.collider(this.blueVirus, cell, this.handleblueVirusCollision, null, this);
         }, this);
+
+
                 
     
     
     
     }//end of create func
-
     handleBulletBloodCellCollision(virusBullet, bloodCell) {
         // Handle the collision between bullet and blood cell
         // For example, destroy the blood cell and remove the bullet
@@ -195,6 +197,20 @@ class Scene2 extends Phaser.Scene {
 
             // Update the score text
             this.scoreText.setText("Score: " + this.score);
+    }
+
+
+    handleblueVirusCollision(blueVirus, bloodCell){
+        // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
+            if (this.healthPoints === 0) {
+                this.gameOverStatus = true;
+            } else {
+
+                this.healthPoints -= 10;
+            }
+                console.log(this.healthPoints)
+        // Update the score text
+        this.healthPointsText.setText("HP: " + this.healthPoints);
     }
 
     // Define the quitGame function
@@ -250,24 +266,6 @@ class Scene2 extends Phaser.Scene {
             this.blueVirus.y -= this.speed;
             //console.log('W key pressed')
         }
-        
-
-    
-
-        // Check for collision between bloodCells and blueVirus
-        // this.physics.add.collider(this.bloodCells, this.blueVirus, function(bloodCell, blueVirus) {
-        //     // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
-        //     if (this.healthPoints == 0) {
-        //         this.gameOverStatus = true;
-        //     } else {
-        
-        //         this.healthPoints -= 10;
-        //     }
-        
-            // Update the score text
-            this.healthPointsText.setText("HP: " + this.healthPoints);
-        // });
-
 
         if (this.gameOverStatus){
             //turns off listener for y to quit
@@ -280,7 +278,7 @@ class Scene2 extends Phaser.Scene {
 
             // Get the player's id from the session storage
             const playerIdRtn = JSON.parse(sessionStorage.getItem('playerId')).playerId;
-         
+        
             if (!playerIdRtn) {
                 console.error("Player ID not found in session storage.");
                 return;
