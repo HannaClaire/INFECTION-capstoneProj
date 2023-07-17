@@ -9,7 +9,7 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
-		const fonts = new WebFontFile(this.load, 'Bungee')
+        const fonts = new WebFontFile(this.load, 'Jua')
 		this.load.addFile(fonts)
 
         // this.load.image("virusBullet", "public/assets/images/virusBullet.png" )
@@ -39,7 +39,7 @@ class Scene1 extends Phaser.Scene {
             inputElement.focus(); // Set focus to the input element
 
             const submitButton = document.createElement("button");
-            submitButton.textContent = "Play!";
+            submitButton.textContent = "PLAY!";
             submitButton.style.position = "absolute";
             submitButton.style.top = "65%";
             submitButton.style.left = "50%";
@@ -57,7 +57,7 @@ class Scene1 extends Phaser.Scene {
             //Text around screen
             const canvasWidth = this.scale.canvas.width;
             const canvasHeight = this.scale.canvas.height;
-            const welcome = this.add.text(canvasWidth/2, 100, "Welcome to Infection!", {fontFamily: 'Bungee',fontSize: "36pt", align: "center", color:"black", position: "absolute"})
+            const welcome = this.add.text(canvasWidth/2, 100, "INFECTION", {fontFamily: 'Jua',fontSize: "100pt", align: "center", color:"black", position: "absolute"})
             const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontFamily: 'Bungee', fontSize: "16pt", align: "center", position: "absolute"});
             label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
             welcome.setOrigin(0.5);
