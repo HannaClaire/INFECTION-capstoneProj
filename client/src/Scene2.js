@@ -131,15 +131,15 @@ class Scene2 extends Phaser.Scene {
         //     repeat: 0,
         //     hideOnComplete: true // Automatically hide the explosion animation when it finishes playing
         // });
-        let keyA;
-        let keyS;
-        let keyD;
-        let keyW;
+        // let keyA;
+        // let keyS;
+        // let keyD;
+        // let keyW;
     
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        // keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        // keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        // keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        // keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
 
         //play the animations
