@@ -46,7 +46,7 @@ class SceneHelp extends Phaser.Scene {
 
         // Add a button or key event to return to the main game scene
         this.input.keyboard.on('keydown-M', this.returnToMainGame, this);
-        this.add.text(X, Y + 250, "Press M for Main Menu ", {fontFamily: 'Farro', fontSize: "20px"}).setOrigin(0.5);
+        this.add.text(X, Y + 300, "Press M for Main Menu ", {fontFamily: 'Farro', fontSize: "20px"}).setOrigin(0.5);
   
         }
     
