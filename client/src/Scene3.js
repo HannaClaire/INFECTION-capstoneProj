@@ -15,12 +15,15 @@ class Scene3 extends Phaser.Scene {
     }
 
     create() {  
-
-        
-        this.cameras.main.setBackgroundColor(0x0760f0)
+        this.cameras.main.setBackgroundColor(0x6B1518)
         const canvasWidth = this.scale.canvas.width;
+
+        // Add a keyboard key event to listen for the "y" key press to quit the game
+        // this.input.keyboard.on('keydown-P', this.playAgain, this);
+        // this.add.text(window.innerWidth - 100, 20, "Play again = p", {fontSize: "20px"}).setOrigin(1);
+  
        // const canvasHeight = this.scale.canvas.height;
-        const text = this.add.text(canvasWidth/2, 100, "GAME OVER!" ,{ fontFamily: 'Bungee', fontSize: "76pt", align: "center", color:"black", position: "absolute"}).setOrigin(0.5)
+        const text = this.add.text(canvasWidth/2, 100, "GAME OVER!" ,{ fontFamily: 'Farro', fontSize: "76pt", align: "center", color:"black", position: "absolute", strokeThickness: 5}).setOrigin(0.5)
 
         //Display name and score
         this.playerName = JSON.parse(sessionStorage.getItem('data')).userName;
@@ -36,7 +39,7 @@ class Scene3 extends Phaser.Scene {
             
             //sort results from highest to low
             results.sort((a, b) => b.highScore - a.highScore);
-            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Bungee', fontSize: "36pt", align: "center", color:"black", position: "absolute"}).setOrigin(0.5);
+            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Farro', fontSize: "36pt", align: "center", color:"black", position: "absolute"}).setOrigin(0.5);
             
             let yPosition = 400;
 
@@ -57,6 +60,9 @@ class Scene3 extends Phaser.Scene {
         .catch(err => console.log(err.response))
         
     }
+    // playAgain(){
+    //     this.scene.start("playGame2");
+    //     }
 
     update(){
 

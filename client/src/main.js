@@ -1,8 +1,10 @@
 import './style.css'
 import { Scene, Animations, Game, WEBGL, GameObjects } from 'phaser';
-import Scene1 from "./Scene1"
-import Scene2 from "./Scene2"
-import Scene3 from "./Scene3"
+import Scene1 from "./Scene1" //start scene with name input
+import Scene2 from "./Scene2" //level one game play
+import Scene3 from "./Scene3" //game over scene
+import Scene4 from "./Scene4" //level2 play again scene
+import Scene5 from "./Scene5" //You win scene 
 
 const canvas = document.getElementById('game');
 
@@ -56,7 +58,7 @@ const config = {
   //   createContainer: true
   // },
   scene: [
-    Scene1, Scene2, Scene3
+    Scene1, Scene2, Scene3, Scene4, Scene5
   ]
 }
 
