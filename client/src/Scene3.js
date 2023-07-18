@@ -35,7 +35,7 @@ class Scene3 extends Phaser.Scene {
             
             //sort results from highest to low
             results.sort((a, b) => b.highScore - a.highScore);
-            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Farro', fontSize: "36pt", align: "center", color:"black", position: "absolute"}).setOrigin(0.5);
+            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Farro', fontSize: "36pt", align: "center", color:"black", position: "absolute", strokeThickness: 4}).setOrigin(0.5);
             
             let yPosition = 400;
 
