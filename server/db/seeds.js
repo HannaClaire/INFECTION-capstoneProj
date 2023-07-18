@@ -4,7 +4,9 @@ db.dropDatabase()
 
 db.users.insertMany([
 
-{name: "Hanna", highScore: 5000},
-{name: "Becky", highScore: 600}
+{name: "Jack", highScore: 15000},
+{name: "Collete", highScore: 6000},
+{name: "Alex", highScore: 7000},
+{name: "John", highScore: 8000}
 
 ])

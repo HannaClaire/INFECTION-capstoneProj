@@ -207,7 +207,7 @@ class Scene2 extends Phaser.Scene {
         });
     
     }//end of create func
-    handleBulletBloodCellCollision(virusBullet, bloodCell) {
+    handleBulletBloodCellCollision(bloodCell, virusBullet) {
         // Handle the collision between bullet and blood cell
         // For example, destroy the blood cell and remove the bullet
         const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml").setOrigin(0.5);
