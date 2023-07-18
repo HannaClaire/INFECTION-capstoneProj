@@ -6,13 +6,16 @@ import {postUser} from '/src/services.js';
 class Scene1 extends Phaser.Scene {
     constructor () {
         super("BootGame")
+        this.openingMusic = null;
     }
 
     preload(){
         const fonts = new WebFontFile(this.load, 'Farro')
 		this.load.addFile(fonts)
 
-        // this.load.image("virusBullet", "public/assets/images/virusBullet.png" )
+        this.load.audio("gameMusic", "public/assets/sounds/gameMusic.mp3", "public/assets/sounds/gameMusic.ogg" )
+        this.load.audio("playGame", "public/assets/sounds/playGame.mp3" )
+
         this.load.image("gutsy", "public/assets/images/gutsy.png");
         this.load.image("Biohazard", "public/assets/images/Biohazard.png");
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
@@ -27,6 +30,16 @@ class Scene1 extends Phaser.Scene {
     }
 
     create() {   
+
+
+        this.openingMusic = this.sound.add("gameMusic");
+        this.startGame = this.sound.add("playGame")
+        this.openingMusic.play()
+        {
+            const x = this.scale.width * 0.5
+            const y = this.scale.height * 0.5
+
+        }
 
 
         const X = window.innerWidth / 2;
@@ -56,6 +69,7 @@ class Scene1 extends Phaser.Scene {
             submitButton.style.transform = "translate(-50%, -50%)";
             submitButton.addEventListener("click", this.handleSubmit.bind(this));
             document.body.appendChild(submitButton);
+            
 
             this.inputElement.addEventListener("keyup", (event) => {
                 if (event.key === "Enter") {
@@ -64,12 +78,15 @@ class Scene1 extends Phaser.Scene {
             });
             this.submitButton = submitButton;
             
+            
             //Text around screen
             const canvasWidth = this.scale.canvas.width;
             const canvasHeight = this.scale.canvas.height;
             const welcome = this.add.text(canvasWidth / 2, 100, "INFECTION", {
-                fontFamily: 'Farro', fontSize: "150pt", align: "center", color: "#3D0000", position: "absolute"})
-            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontFamily: 'Bungee', fontSize: "16pt", align: "center", position: "absolute"});
+                fontFamily: 'Farro', fontSize: "150pt", align: "center", color: "#3D1414", position: "absolute", strokeThickness: 3,
+                shadow: { blur: 50, color: '#291414', fill: true, stroke: true }
+            })
+            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontFamily: 'Farro', fontSize: "16pt", align: "center", position: "absolute"});
             label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
             welcome.setOrigin(0.5);
 
@@ -84,6 +101,7 @@ class Scene1 extends Phaser.Scene {
         }
 
         async handleSubmit() {
+            this.startGame.play() //makes the noise when pressing play
             const inputValue = this.inputElement.value;
             //save users input name in local storage to use in other scenes
             sessionStorage.setItem('data', JSON.stringify({ 

@@ -9,7 +9,8 @@ class Scene3 extends Phaser.Scene {
 
     preload(){
     
-        const fonts = new WebFontFile(this.load, 'Farro')
+    
+        const fonts = new WebFontFile(this.load, 'Bungee')
 		this.load.addFile(fonts)
     }
 
