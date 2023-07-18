@@ -93,10 +93,6 @@ class Scene2 extends Phaser.Scene {
         this.cellDeath = this.sound.add("explosion")
         this.gameOver = this.sound.add("gameOver")
         this.hurt = this.sound.add("hurt2")
-        // this.openingMusic = this.sound.add("openingMusic")
-        // this.openingMusic.stop()
-        
-        
         
 
         this.physics.start();

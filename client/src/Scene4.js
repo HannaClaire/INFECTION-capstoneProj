@@ -79,7 +79,10 @@ class Scene4 extends Phaser.Scene {
 
     
     create() {
-
+        this.beam = this.sound.add("beam");
+        this.cellDeath = this.sound.add("explosion")
+        this.gameOver = this.sound.add("gameOver")
+        this.hurt = this.sound.add("hurt2")
 
         this.physics.start();
         this.addEvents();
@@ -187,11 +190,12 @@ class Scene4 extends Phaser.Scene {
         explosion.play("explosion_anim");
 
         explosion.on("animationcomplete", () => {
-            explosion.destroy();
+        explosion.destroy();
         });
 
         bloodCell.destroy();
         virusBullet.destroy();
+        this.cellDeath.play()
 
         // Increment the score when collision occurs
         this.startScore += 100;
@@ -210,7 +214,8 @@ class Scene4 extends Phaser.Scene {
 
     handleblueVirusCollision(blueVirus, bloodCell){
         // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
-            if (this.healthPoints === 0) {
+        this.hurt.play()    
+        if (this.healthPoints === 0) {
                 this.gameOverStatus = true;
             } else {
                 this.healthPoints -= 10;
@@ -229,7 +234,7 @@ class Scene4 extends Phaser.Scene {
                 //  console.log(this.healthPoints)
         // Update the score text
         this.healthPointsText.setText("HP: " + this.healthPoints);
-        
+
         // Decrement the remaining blood cells count
         this.remainingBloodCells--;
         // Check if all blood cells are destroyed
@@ -254,6 +259,8 @@ class Scene4 extends Phaser.Scene {
 
     shootVirusBullet(){
         this.virusBulletGroup.fireBullet(this.blueVirus.x, this.blueVirus.y -20)
+        this.beam.play()
+        
     }
 
     update(){
@@ -295,6 +302,10 @@ class Scene4 extends Phaser.Scene {
 
 
         if (this.gameOverStatus){
+
+            this.gameOver.play();
+            this.gameOver.setVolume(4.0)
+
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
             
