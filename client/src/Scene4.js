@@ -195,6 +195,8 @@ class Scene4 extends Phaser.Scene {
             paused: true // Start the tween paused initially
         });
 
+        
+
     
     }//end of create func
     handleBulletBloodCellCollision(virusBullet, bloodCell) {

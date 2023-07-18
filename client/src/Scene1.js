@@ -92,6 +92,8 @@ class Scene1 extends Phaser.Scene {
             const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input Player Name", {fontFamily: 'Farro', fontSize: "16pt", align: "center", position: "absolute"}).setOrigin(0.5); //basically means align at the center of the text(the half way point)
             
             //Controls help text
+            // Add a keyboard key event to listen for the "M" key press to start the game
+            this.input.keyboard.on('keydown-H', this.getHelp, this);
             const help = this.add.text(X, Y + 300, "H for Help",{fontFamily: 'Farro', fontSize: "12pt"}).setOrigin(0.5)
 
         this.tweens.add({
@@ -103,6 +105,14 @@ class Scene1 extends Phaser.Scene {
         });
 
         }
+
+        getHelp(){
+            // Destroy all game objects in the current scene to clear the canvas
+            this.children.removeAll(true, true);
+            this.inputElement.hidden = true;
+            this.submitButton.hidden = true;
+            this.scene.start("HelpScene");
+            }
 
         async handleSubmit() {
             this.startGame.play() //makes the noise when pressing play

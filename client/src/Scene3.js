@@ -55,12 +55,18 @@ class Scene3 extends Phaser.Scene {
         })
         .catch(err => console.log(err.response))
         
+        //  // Add a button or key event to return to the main game scene
+        //  this.input.keyboard.on('keydown-M', this.returnToMainGame, this);
+        //  this.add.text(canvasWidth/2, 600, "Press M for Main Menu ", {fontFamily: 'Farro', fontSize: "20px"}).setOrigin(0.5);
+ 
     }
 
-    update(){
-
-    }
-
+    // returnToMainGame(){
+    //     this.children.removeAll(true, true);
+    //     this.scene.start("BootGame");
+    //     }
+ 
+    
 }//end bracket
 
 export default Scene3
