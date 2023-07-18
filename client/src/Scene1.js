@@ -92,9 +92,9 @@ class Scene1 extends Phaser.Scene {
             const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input Player Name", {fontFamily: 'Farro', fontSize: "16pt", align: "center", position: "absolute"}).setOrigin(0.5); //basically means align at the center of the text(the half way point)
             
             //Controls help text
-            // Add a keyboard key event to listen for the "M" key press to start the game
-            this.input.keyboard.on('keydown-H', this.getHelp, this);
-            const help = this.add.text(X, Y + 300, "H for Help",{fontFamily: 'Farro', fontSize: "12pt"}).setOrigin(0.5)
+            // Add a keyboard key event to listen for the "?" key press to get help
+            this.input.keyboard.on('keydown-CTRL', this.getHelp, this);
+            const help = this.add.text(X, Y + 300, "CTRL for Help",{fontFamily: 'Farro', fontSize: "12pt"}).setOrigin(0.5)
 
         this.tweens.add({
             targets: welcome,
