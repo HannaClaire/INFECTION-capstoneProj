@@ -9,11 +9,14 @@ class Scene3 extends Phaser.Scene {
 
     preload(){
     
+    
         const fonts = new WebFontFile(this.load, 'Bungee')
 		this.load.addFile(fonts)
     }
 
     create() {  
+
+        
         this.cameras.main.setBackgroundColor(0x0760f0)
         const canvasWidth = this.scale.canvas.width;
        // const canvasHeight = this.scale.canvas.height;
