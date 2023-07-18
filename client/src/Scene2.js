@@ -203,12 +203,12 @@ class Scene2 extends Phaser.Scene {
         virusBullet.destroy();
 
         // Increment the score when collision occurs
-            this.score += 100;
+        this.score += 100;
 
-            // Update the score text
-            this.scoreText.setText("Score: " + this.score);
+        // Update the score text
+        this.scoreText.setText("Score: " + this.score);
         
-            // Decrement the remaining blood cells count
+        // Decrement the remaining blood cells count
         this.remainingBloodCells--;
 
         // Check if all blood cells are destroyed

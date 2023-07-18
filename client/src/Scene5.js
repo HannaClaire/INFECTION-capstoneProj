@@ -19,7 +19,7 @@ class Scene3 extends Phaser.Scene {
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-P', this.playAgain, this);
-        this.add.text(canvasWidth/2, 400, "Press P for next level ", {fontSize: "20px"}).setOrigin(1);
+        this.add.text(canvasWidth/2, 400, "Press P for next level ", {fontSize: "20px"}).setOrigin(0.5);
   
        // const canvasHeight = this.scale.canvas.height;
         const text = this.add.text(canvasWidth/2, 200, "You Win!" ,{ fontFamily: 'Farro', fontSize: "76pt", align: "center", color:"black", position: "absolute", strokeThickness: 5}).setOrigin(0.5)
