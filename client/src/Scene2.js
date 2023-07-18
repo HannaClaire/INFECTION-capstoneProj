@@ -78,6 +78,7 @@ class Scene2 extends Phaser.Scene {
         this.load.audio("explosion", "public/assets/sounds/explosion.mp3")
         this.load.audio("gameOver", "public/assets/sounds/gameOver.mp3")
         this.load.audio("hurt2", "public/assets/sounds/hurt2.mp3")
+        this.load.audio("success", "public/assets/sounds/success.mp3")
     
         //spritesheets
         this.load.spritesheet("bloodCell", "/public/assets/spritesheets/whitebc.png",{
@@ -93,6 +94,7 @@ class Scene2 extends Phaser.Scene {
         this.cellDeath = this.sound.add("explosion")
         this.gameOver = this.sound.add("gameOver")
         this.hurt = this.sound.add("hurt2")
+        this.success = this.sound.add("success")
         
 
         this.physics.start();
@@ -290,7 +292,9 @@ class Scene2 extends Phaser.Scene {
 
         // Check if all blood cells are destroyed
         if (this.remainingBloodCells <= 0 && this.healthPoints !=0) {
+            
             this.scene.start("youWin");
+            this.success.play()
         }
     }
 
@@ -355,12 +359,9 @@ class Scene2 extends Phaser.Scene {
         if (this.gameOverStatus){
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
-            this.gameOver.play();
-            this.gameOver.setVolume(4.0)
-            
-            
             
             if (this.remainingBloodCells <= 0 && this.healthPoints !=0) {
+                this.success.play()
                 this.scene.start("youWin");
                 //update users scores.
                 let finalScore = this.score;
@@ -395,6 +396,8 @@ class Scene2 extends Phaser.Scene {
 
             }else {
             this.scene.start("gameOver");
+            this.gameOver.play();
+            this.gameOver.setVolume(4.0)
             
             //update users scores.
             let finalScore = this.score;
