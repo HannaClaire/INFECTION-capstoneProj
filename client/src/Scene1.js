@@ -23,7 +23,7 @@ class Scene1 extends Phaser.Scene {
             frameHeight: 50
         });
         this.load.spritesheet("cellsplosionSml", "public/assets/spritesheets/cellsplosionSml.png", {
-            frameWidth: 64, // Replace with the actual frame width of each frame
+            frameWidth: 63, // Replace with the actual frame width of each frame
             frameHeight: 64 // Replace with the actual frame height of each frame
         });
 
