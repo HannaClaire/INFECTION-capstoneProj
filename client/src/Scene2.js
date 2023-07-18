@@ -63,7 +63,7 @@ class Scene2 extends Phaser.Scene {
         this.healthPoints = 50;
         this.gameOverStatus = false;
 
-        this.totalBloodCells = 10; // Total number of blood cells
+        this.totalBloodCells = 50; // Total number of blood cells
         this.remainingBloodCells = this.totalBloodCells; // Remaining blood cells
       
     }
