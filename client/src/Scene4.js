@@ -62,6 +62,10 @@ class Scene4 extends Phaser.Scene {
         this.score = 0;
         this.healthPoints = 50;
         this.gameOverStatus = false;
+
+        this.totalBloodCells = 100; // Total number of blood cells
+        this.remainingBloodCells = this.totalBloodCells; // Remaining blood cells
+      
     }
 
     preload(){
@@ -235,8 +239,6 @@ class Scene4 extends Phaser.Scene {
     shootVirusBullet(){
         this.virusBulletGroup.fireBullet(this.blueVirus.x, this.blueVirus.y -20)
     }
-
-
 
     update(){
     

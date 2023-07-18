@@ -63,7 +63,7 @@ class Scene2 extends Phaser.Scene {
         this.healthPoints = 50;
         this.gameOverStatus = false;
 
-        this.totalBloodCells = 50; // Total number of blood cells
+        this.totalBloodCells = 10; // Total number of blood cells
         this.remainingBloodCells = this.totalBloodCells; // Remaining blood cells
       
     }
@@ -257,7 +257,7 @@ class Scene2 extends Phaser.Scene {
                 if (this.healthPoints <= 0) {
                     this.healthPoints = 0; // Ensure health points don't go below 0
                     this.gameOverStatus = true;
-                    console.log("health", this.healthPoints);
+                   // console.log("health", this.healthPoints);
                 }
             }
                 //  console.log(this.healthPoints)
@@ -268,14 +268,14 @@ class Scene2 extends Phaser.Scene {
         this.remainingBloodCells--;
 
         // Check if all blood cells are destroyed
-        if (this.remainingBloodCells <= 0) {
-            this.gameOverStatus = true;
+        if (this.remainingBloodCells <= 0 && this.healthPoints !=0) {
+            this.scene.start("youWin");
         }
     }
 
     // Define the quitGame function
     quitGame() {
-        this.gameOverStatus = true;
+        this.scene.start("gameOver");
     }
 
     addEvents(){
@@ -331,8 +331,43 @@ class Scene2 extends Phaser.Scene {
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
             
+            if (this.remainingBloodCells <= 0 && this.healthPoints !=0) {
+                this.scene.start("youWin");
+                //update users scores.
+                let finalScore = this.score;
+                sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
+
+                // Get the player's id from the session storage
+                const playerIdRtn = JSON.parse(sessionStorage.getItem('playerId')).playerId;
+            
+                if (!playerIdRtn) {
+                    console.error("Player ID not found in session storage.");
+                    return;
+                }
+
+                try {
+                    // Get the player's name from the session storage
+                    const playerName = JSON.parse(sessionStorage.getItem('data')).userName;
+
+                    // Create an updated payload with the new high score
+                    const updatedPayload = {
+                        _id: playerIdRtn,
+                        name: playerName,
+                        highScore: finalScore
+                    };
+
+                    // Call the putUser function from services.js to update the player's score in the server
+                    const data = putUser(updatedPayload);
+
+                    //console.log("Updated user data:", data); // You can check the updated user data if needed
+                } catch (error) {
+                    console.error(error);
+                }
+
+            }else {
             this.scene.start("gameOver");
-            //simulate a game over to update users scores.
+            
+            //update users scores.
             let finalScore = this.score;
             sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
 
@@ -362,6 +397,7 @@ class Scene2 extends Phaser.Scene {
             } catch (error) {
                 console.error(error);
             }
+        }
         
       
     }
