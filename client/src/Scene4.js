@@ -87,6 +87,7 @@ class Scene4 extends Phaser.Scene {
         //retrieve playerName and Id from memory
         this.playerName = JSON.parse(sessionStorage.getItem('data')).userName;
         this.playerId = JSON.parse(sessionStorage.getItem('playerId')).playerId;
+        this.startScore = JSON.parse(sessionStorage.getItem('score')).score;
 
         const middleOfScreenH = this.screenHeight / 2
         const middleOfScreenW = this.screenWidth / 2;
@@ -105,7 +106,7 @@ class Scene4 extends Phaser.Scene {
         this.healthPointsText.setOrigin(0,0)
         
         // Create the scoreText 
-        this.scoreText = this.add.text(window.innerWidth - 10, 10, "SCORE: ", {fontSize: "20px"});
+        this.scoreText = this.add.text(window.innerWidth - 10, 10, "SCORE: " +this.startScore, {fontSize: "20px"});
         this.scoreText.setOrigin(1, 0);
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
@@ -193,10 +194,10 @@ class Scene4 extends Phaser.Scene {
         virusBullet.destroy();
 
         // Increment the score when collision occurs
-            this.score += 100;
+            this.startScore += 100;
 
             // Update the score text
-            this.scoreText.setText("Score: " + this.score);
+            this.scoreText.setText("Score: " + this.startScore);
     }
 
     handleblueVirusCollision(blueVirus, bloodCell){
@@ -214,7 +215,7 @@ class Scene4 extends Phaser.Scene {
                 if (this.healthPoints <= 0) {
                     this.healthPoints = 0; // Ensure health points don't go below 0
                     this.gameOverStatus = true;
-                    console.log("health", this.healthPoints);
+                    //console.log("health", this.healthPoints);
                 }
             }
                 //  console.log(this.healthPoints)
@@ -273,6 +274,10 @@ class Scene4 extends Phaser.Scene {
             this.blueVirus.y -= this.speed;
             //console.log('W key pressed')
         }
+       
+       
+       // if (this.remainingBloodCells <= 0 && this.healthPoints !=0) {
+
 
         if (this.gameOverStatus){
             //turns off listener for y to quit
@@ -280,7 +285,7 @@ class Scene4 extends Phaser.Scene {
             
             this.scene.start("gameOver");
             //simulate a game over to update users scores.
-            let finalScore = this.score;
+            let finalScore = this.startScore;
             sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
 
             // Get the player's id from the session storage
