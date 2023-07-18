@@ -10,14 +10,16 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
+        //load fonts
         const fonts = new WebFontFile(this.load, 'Farro')
 		this.load.addFile(fonts)
-
+        //load sounds
         this.load.audio("gameMusic", "public/assets/sounds/gameMusic.mp3", "public/assets/sounds/gameMusic.ogg" )
         this.load.audio("playGame", "public/assets/sounds/playGame.mp3" )
-
+        //load images
         this.load.image("gutsy", "public/assets/images/gutsy.png");
         this.load.image("Biohazard", "public/assets/images/Biohazard.png");
+        //load sprites
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
             frameWidth: 50,
             frameHeight: 50
@@ -31,20 +33,18 @@ class Scene1 extends Phaser.Scene {
 
     create() {   
 
-
         this.openingMusic = this.sound.add("gameMusic");
         this.startGame = this.sound.add("playGame")
         this.openingMusic.play()
         {
             const x = this.scale.width * 0.5
             const y = this.scale.height * 0.5
-
         }
-
 
         const X = window.innerWidth / 2;
         const Y = window.innerHeight / 2;
         this.background = this.add.image(X, Y, "Biohazard");
+
         
         const container = document.createElement("div");//creating a container/parent element for the child elements
         container.className = "container";
@@ -62,11 +62,14 @@ class Scene1 extends Phaser.Scene {
             inputElement.focus(); // Set focus to the input element
 
             const submitButton = document.createElement("button");
-            submitButton.textContent = "PLAY!";
+            submitButton.textContent = "PLAY";
             submitButton.style.position = "absolute";
             submitButton.style.top = "65%";
             submitButton.style.left = "50%";
             submitButton.style.transform = "translate(-50%, -50%)";
+            submitButton.style.backgroundColor = "#6B1518";
+            submitButton.style.color = "white";
+            submitButton.style.border= "5px solid black";
             submitButton.addEventListener("click", this.handleSubmit.bind(this));
             document.body.appendChild(submitButton);
             
@@ -85,10 +88,11 @@ class Scene1 extends Phaser.Scene {
             const welcome = this.add.text(canvasWidth / 2, 100, "INFECTION", {
                 fontFamily: 'Farro', fontSize: "150pt", align: "center", color: "#3D1414", position: "absolute", strokeThickness: 3,
                 shadow: { blur: 50, color: '#291414', fill: true, stroke: true }
-            })
-            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input your player name", {fontFamily: 'Farro', fontSize: "16pt", align: "center", position: "absolute"});
-            label.setOrigin(0.5); //basically means align at the center of the text(the half way point)
-            welcome.setOrigin(0.5);
+            }).setOrigin(0.5);
+            const label = this.add.text(canvasWidth/2, canvasHeight/2, "Input Player Name", {fontFamily: 'Farro', fontSize: "16pt", align: "center", position: "absolute"}).setOrigin(0.5); //basically means align at the center of the text(the half way point)
+            
+            //Controls help text
+            const help = this.add.text(X, Y + 300, "H for Help",{fontFamily: 'Farro', fontSize: "12pt"}).setOrigin(0.5)
 
         this.tweens.add({
             targets: welcome,
