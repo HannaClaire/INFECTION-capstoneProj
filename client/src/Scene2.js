@@ -12,6 +12,7 @@ class VirusBullet extends Phaser.Physics.Arcade.Sprite{
         this.setActive(true);
         this.setVisible(true);
         this.setVelocity(0, -300);
+        
     }
 
     preUpdate(time, delta){ //phasers lifecycle method - will shoot infinite amount of bullets as once reaching end of screen it will reset.
@@ -62,11 +63,19 @@ class Scene2 extends Phaser.Scene {
         this.score = 0;
         this.healthPoints = 50;
         this.gameOverStatus = false;
+        // this.openingMusic = null
     }
 
     preload(){
+        //images
         this.load.image("virusBullet", "public/assets/images/bullet.png");
-
+        //audio
+        this.load.audio("beam", "public/assets/sounds/beam.ogg", "public/assets/sounds/beam.mp3")
+        this.load.audio("explosion", "public/assets/sounds/explosion.mp3")
+        this.load.audio("gameOver", "public/assets/sounds/gameOver.mp3")
+        this.load.audio("hurt2", "public/assets/sounds/hurt2.mp3")
+    
+        //spritesheets
         this.load.spritesheet("bloodCell", "/public/assets/spritesheets/whitebc.png",{
             frameWidth: 41,
             frameHeight: 40
@@ -76,6 +85,15 @@ class Scene2 extends Phaser.Scene {
     
     create() {
 
+        this.beam = this.sound.add("beam");
+        this.cellDeath = this.sound.add("explosion")
+        this.gameOver = this.sound.add("gameOver")
+        this.hurt = this.sound.add("hurt2")
+        // this.openingMusic = this.sound.add("openingMusic")
+        // this.openingMusic.stop()
+        
+        
+        
 
         this.physics.start();
         this.addEvents();
@@ -196,6 +214,7 @@ class Scene2 extends Phaser.Scene {
 
         bloodCell.destroy();
         virusBullet.destroy();
+        this.cellDeath.play()
 
         // Increment the score when collision occurs
             this.score += 100;
@@ -206,8 +225,11 @@ class Scene2 extends Phaser.Scene {
 
     handleblueVirusCollision(blueVirus, bloodCell){
         // Decrement the healthPoints when collision occurs between blueVirus and and bloodCell
+            this.hurt.play()
             if (this.healthPoints === 0) {
                 this.gameOverStatus = true;
+                
+            
             } else {
                 this.healthPoints -= 10;
                 const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
@@ -230,6 +252,8 @@ class Scene2 extends Phaser.Scene {
                         tint: 0xff0000, // Set the tint to red
                         onComplete: () => {
                             this.blueVirus.clearTint(); // Clear the tint after the flashes
+                            
+                            
                         }
                     });
                     
@@ -238,6 +262,7 @@ class Scene2 extends Phaser.Scene {
                 explosion.play("explosion_anim");
                 explosion.on("animationcomplete", () => {
                     explosion.destroy();
+                    
                 });
                 blueVirus.destroy();
                 if (this.healthPoints <= 0) {
@@ -254,19 +279,26 @@ class Scene2 extends Phaser.Scene {
     // Define the quitGame function
     quitGame() {
         this.gameOverStatus = true;
+        
+        
+        
     }
 
     addEvents(){
         this.input.keyboard.on('keydown-SPACE', () =>{
             this.shootVirusBullet(); // initiates the shooting functionality
+            
         })
         this.input.keyboard.on('keydown-ENTER', () =>{
             this.shootVirusBullet(); // initiates the shooting functionality
+            
         })
     }
 
     shootVirusBullet(){
         this.virusBulletGroup.fireBullet(this.blueVirus.x, this.blueVirus.y -20)
+        this.beam.play()
+        
     }
 
 
@@ -308,10 +340,15 @@ class Scene2 extends Phaser.Scene {
         if (this.gameOverStatus){
             //turns off listener for y to quit
             this.input.keyboard.off('keydown-Y', this.quitGame, this);
+            this.gameOver.play();
+            this.gameOver.setVolume(4.0)
+            
+            
             
             this.scene.start("gameOver");
             //simulate a game over to update users scores.
             let finalScore = this.score;
+            
             sessionStorage.setItem("score", JSON.stringify({ "score": finalScore}));
 
             // Get the player's id from the session storage
@@ -341,7 +378,7 @@ class Scene2 extends Phaser.Scene {
                 console.error(error);
             }
         
-      
+    
     }
 
     

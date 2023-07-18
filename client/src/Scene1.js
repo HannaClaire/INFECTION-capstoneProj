@@ -6,6 +6,7 @@ import {postUser} from '/src/services.js';
 class Scene1 extends Phaser.Scene {
     constructor () {
         super("BootGame")
+        this.openingMusic = null;
     }
 
     preload(){
@@ -13,6 +14,8 @@ class Scene1 extends Phaser.Scene {
 		this.load.addFile(fonts)
 
         this.load.audio("gameMusic", "public/assets/sounds/gameMusic.mp3", "public/assets/sounds/gameMusic.ogg" )
+        this.load.audio("playGame", "public/assets/sounds/playGame.mp3" )
+
         this.load.image("gutsy", "public/assets/images/gutsy.png");
         this.load.image("Biohazard", "public/assets/images/Biohazard.png");
         this.load.spritesheet("blueVirus", "public/assets/spritesheets/bluespritesheet.png",{
@@ -30,6 +33,7 @@ class Scene1 extends Phaser.Scene {
 
 
         this.openingMusic = this.sound.add("gameMusic");
+        this.startGame = this.sound.add("playGame")
         this.openingMusic.play()
         {
             const x = this.scale.width * 0.5
@@ -65,6 +69,7 @@ class Scene1 extends Phaser.Scene {
             submitButton.style.transform = "translate(-50%, -50%)";
             submitButton.addEventListener("click", this.handleSubmit.bind(this));
             document.body.appendChild(submitButton);
+            
 
             this.inputElement.addEventListener("keyup", (event) => {
                 if (event.key === "Enter") {
@@ -72,6 +77,7 @@ class Scene1 extends Phaser.Scene {
                 }
             });
             this.submitButton = submitButton;
+            
             
             //Text around screen
             const canvasWidth = this.scale.canvas.width;
@@ -95,6 +101,7 @@ class Scene1 extends Phaser.Scene {
         }
 
         async handleSubmit() {
+            this.startGame.play() //makes the noise when pressing play
             const inputValue = this.inputElement.value;
             //save users input name in local storage to use in other scenes
             sessionStorage.setItem('data', JSON.stringify({ 
