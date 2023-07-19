@@ -32,6 +32,9 @@ class SceneHelp extends Phaser.Scene {
             fontFamily: 'Farro', fontSize: "150pt", align: "center", color: "#3D1414", position: "absolute", strokeThickness: 3,
             shadow: { blur: 50, color: '#291414', fill: true, stroke: true }
         }).setOrigin(0.5);
+
+        this.add.text(X, 275, "Unleash your viral invasion, evade vigilant white blood cells, and deploy cunning tactics to outsmart the immune system. Replicate, spread, and dominate in the intense struggle for survival within the host!",
+        {fontFamily: 'Farro', fontSize: "16pt", wordWrap: {width:800}, align: "center"}).setOrigin(0.5);
         
         this.add.text(X, Y, "Game Controls", {
             fontFamily: 'Farro', fontSize: "24pt", align: "center", position: "absolute"
