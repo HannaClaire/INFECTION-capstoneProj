@@ -2,13 +2,13 @@
 
 # INFECTION
 
-![]https://github.com/bjentwistle/Capstone_project_July23/blob/main/client/public/assets/images/Biohazard.png
+![](https://github.com/bjentwistle/Capstone_project_July23/blob/main/client/public/assets/images/Biohazard.png)
 
 ## Unleash your viral invasion, evade vigilant white blood cells, and deploy cunning tactics to outsmart the immune system. Replicate, spread, and dominate in the intense struggle for survival within the host!
 
 For our final project at CodeClan, we wanted to make something fun and educational that gave us a challenge beyond what we had learnt in the classroom and labs so far.
 
-We chose to make a 2D game using the Phaser3[https://phaser.io/] engine. Sadly, during our project the website was under construction and we only had access to a portion of the site via Wayback machine. However, we managed with old tutorials on YouTube and GitHub repository for inspiration.
+We chose to make a 2D game using the [Phaser3](https://phaser.io/) engine. Sadly, during our project the website was under construction and we only had access to a portion of the site via Wayback machine. However, we managed with old tutorials on YouTube and GitHub repository for inspiration.
 
 Infection is a fun and interactive game showing how a virus can infiltrate and infect the human host. The white blood cells of the immune system come at you and try to destroy you before you can spread throughout the body. You are just a virus trying to survive and reproduce in a hostile environment.
 
