@@ -87,7 +87,7 @@ class Scene4 extends Phaser.Scene {
         this.beam = this.sound.add("beam");
         this.cellDeath = this.sound.add("explosion")
         this.gameOver = this.sound.add("gameOver")
-        this.hurt = this.sound.add("hurt2")
+        this.hurt = this.sound.add("splat")
 
         this.physics.start();
         this.addEvents();
