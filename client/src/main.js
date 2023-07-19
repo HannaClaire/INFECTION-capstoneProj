@@ -5,6 +5,7 @@ import Scene2 from "./Scene2" //level one game play
 import Scene3 from "./Scene3" //game over scene
 import Scene4 from "./Scene4" //level2 play again scene
 import Scene5 from "./Scene5" //You win scene 
+import SceneHelp from "./SceneHelp" //Help Scene
 
 const canvas = document.getElementById('game');
 
@@ -58,7 +59,7 @@ const config = {
   //   createContainer: true
   // },
   scene: [
-    Scene1, Scene2, Scene3, Scene4, Scene5
+    Scene1, Scene2, Scene3, Scene4, Scene5, SceneHelp
   ]
 }
 

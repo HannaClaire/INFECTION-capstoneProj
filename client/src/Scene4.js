@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import {putUser} from '/src/services.js'
-
+import WebFontFile from '/src/WebFontFile'
 
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y) {
@@ -69,8 +69,13 @@ class Scene4 extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image("virusBullet", "public/assets/images/bullet.png");
 
+        //load fonts
+        const fonts = new WebFontFile(this.load, 'Bungee')
+		this.load.addFile(fonts)
+        //load images
+        this.load.image("virusBullet", "public/assets/images/bullet.png");
+        //load sprites
         this.load.spritesheet("bloodCell", "/public/assets/spritesheets/whitebc.png",{
             frameWidth: 41,
             frameHeight: 40
@@ -101,20 +106,20 @@ class Scene4 extends Phaser.Scene {
         this.background.setScale(2);
     
         // Create the player name text 
-        this.playerNameText = this.add.text(window.innerWidth /2, 20, this.playerName , {fontSize: "20pt"});
+        this.playerNameText = this.add.text(window.innerWidth /2, 20, this.playerName , {fontFamily: "Bungee", fontSize: "30pt"});
         this.playerNameText.setOrigin(0.5);
 
         // Create the health points text 
-        this.healthPointsText = this.add.text(10, 10, "HP: 50" , {fontSize: "20pt"});
-        this.healthPointsText.setOrigin(0,0)
+        this.healthPointsText = this.add.text(10, 40, "HP: 50" , {fontFamily: "Bungee", fontSize: "20pt"});
+        this.healthPointsText.setOrigin(0)
         
         // Create the scoreText 
-        this.scoreText = this.add.text(window.innerWidth - 10, 10, "SCORE: " +this.startScore, {fontSize: "20px"});
-        this.scoreText.setOrigin(1, 0);
+        this.scoreText = this.add.text(10, 10, "SCORE: " +this.startScore, { fontFamily: "Bungee", fontSize: "20pt"});
+        this.scoreText.setOrigin(0);
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
-        this.add.text(window.innerWidth - 300, 10, "Quit = y", {fontSize: "20px"})
+        this.add.text(window.innerWidth, 10, "Y to Quit", {fontFamily: "Bungee", fontSize: "20pt"}).setOrigin(1,0)
         
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -158,7 +163,7 @@ class Scene4 extends Phaser.Scene {
             { 
                 key: 'bloodCell',
                 immovable : false,
-                quantity: 100
+                quantity: this.totalBloodCells
             });
         
         this.bloodCells.children.each(function(cell) {
@@ -180,6 +185,17 @@ class Scene4 extends Phaser.Scene {
             this.physics.add.collider(this.virusBulletGroup, cell, this.handleBulletBloodCellCollision, null, this);
             this.physics.add.collider(cell, this.blueVirus, this.handleblueVirusCollision, null, this);
         }, this);
+
+        this.flashTween = this.tweens.add({
+            targets: this.blueVirus,
+            duration: 100, // Duration of each flash (in milliseconds)
+            repeat: -1, // Repeat indefinitely
+            yoyo: true, // Reverse the tween for the flashing effect
+            tint: 0xff0000, // Set the tint color to red
+            paused: true // Start the tween paused initially
+        });
+
+        
 
     
     }//end of create func
@@ -220,6 +236,31 @@ class Scene4 extends Phaser.Scene {
             } else {
                 this.healthPoints -= 10;
                 const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml");
+                this.flashTween.restart(); // tweening for collision 'ouchy' flashing 
+                this.blueVirus.setTint(0xff0000);
+
+                this.time.delayedCall(90, () => { //does double flash once at beginning but not again, not sure why.
+                    this.blueVirus.clearTint();
+                    const flashDuration = 100; 
+                    const flashRepeat = 4;
+                    this.flashTween.stop();
+                    this.blueVirus.clearTint();
+
+                    this.tweens.add({
+                        targets: this.blueVirus,
+                        repeat: flashRepeat - 1, // Repeat the tween (flashRepeat - 1) times
+                        yoyo: true, // Reverse the tween
+                        duration: flashDuration,
+                        tint: 0xff0000, // Set the tint to red
+                        onComplete: () => {
+                            this.blueVirus.clearTint(); // Clear the tint after the flashes
+                            
+                            
+                        }
+                    });
+                    
+                });
+
                 explosion.play("explosion_anim");
                 explosion.on("animationcomplete", () => {
                     explosion.destroy();

@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import {putUser} from '/src/services.js'
-
+import WebFontFile from '/src/WebFontFile'
 
 class VirusBullet extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y) {
@@ -71,6 +71,9 @@ class Scene2 extends Phaser.Scene {
     }
 
     preload(){
+        //load fonts
+        const fonts = new WebFontFile(this.load, 'Bungee')
+		this.load.addFile(fonts)
         //images
         this.load.image("virusBullet", "public/assets/images/bullet.png");
         //audio
@@ -113,20 +116,20 @@ class Scene2 extends Phaser.Scene {
         this.background.setScale(2);
     
         // Create the player name text 
-        this.playerNameText = this.add.text(window.innerWidth /2, 20, this.playerName , {fontSize: "20pt"});
+        this.playerNameText = this.add.text(window.innerWidth /2, 20, this.playerName , {fontFamily: "Bungee", fontSize: "30pt"});
         this.playerNameText.setOrigin(0.5);
 
         // Create the health points text 
-        this.healthPointsText = this.add.text(10, 10, "HP: 50" , {fontSize: "20pt"});
-        this.healthPointsText.setOrigin(0,0)
+        this.healthPointsText = this.add.text(10, 40, "HP: 50" , {fontFamily: "Bungee", fontSize: "20pt"});
+        this.healthPointsText.setOrigin(0)
         
         // Create the scoreText 
-        this.scoreText = this.add.text(window.innerWidth - 10, 10, "SCORE: ", {fontSize: "20px"});
-        this.scoreText.setOrigin(1, 0);
+        this.scoreText = this.add.text(10, 10, "SCORE: "+ this.score, {fontFamily: "Bungee", fontSize: "20pt"});
+        this.scoreText.setOrigin(0);
 
         // Add a keyboard key event to listen for the "y" key press to quit the game
         this.input.keyboard.on('keydown-Y', this.quitGame, this);
-        this.add.text(window.innerWidth - 300, 10, "Quit = y", {fontSize: "20px"})
+        this.add.text(window.innerWidth - 10, 10, "Y to Quit", {fontFamily: "Bungee", fontSize: "20pt"}).setOrigin(1, 0)
         
         
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -204,7 +207,7 @@ class Scene2 extends Phaser.Scene {
         });
     
     }//end of create func
-    handleBulletBloodCellCollision(virusBullet, bloodCell) {
+    handleBulletBloodCellCollision(bloodCell, virusBullet) {
         // Handle the collision between bullet and blood cell
         // For example, destroy the blood cell and remove the bullet
         const explosion = this.add.sprite(bloodCell.x, bloodCell.y, "cellsplosionSml").setOrigin(0.5);
@@ -342,19 +345,36 @@ class Scene2 extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
+        // Split A/D and W/S checks so that you can move in diagonals.
         if (keyA.isDown || this.cursors.left.isDown) {
             this.blueVirus.x -= this.speed;
-           // console.log('A key pressed')
-        } else if (keyS.isDown || this.cursors.down.isDown) {
-            this.blueVirus.y += this.speed;
-            //console.log('S key pressed')
+          
         } else if (keyD.isDown || this.cursors.right.isDown) {
             this.blueVirus.x += this.speed;
-           // console.log('D key pressed')
+          
+        }
+        
+        if (keyS.isDown || this.cursors.down.isDown) {
+            this.blueVirus.y += this.speed;
+           
         } else if (keyW.isDown || this.cursors.up.isDown) {
             this.blueVirus.y -= this.speed;
-            //console.log('W key pressed')
+           
         }
+        
+        // if (keyA.isDown || this.cursors.left.isDown) {
+        //     this.blueVirus.x -= this.speed;
+        //    // console.log('A key pressed')
+        // } else if (keyS.isDown || this.cursors.down.isDown) {
+        //     this.blueVirus.y += this.speed;
+        //     //console.log('S key pressed')
+        // } else if (keyD.isDown || this.cursors.right.isDown) {
+        //     this.blueVirus.x += this.speed;
+        //    // console.log('D key pressed')
+        // } else if (keyW.isDown || this.cursors.up.isDown) {
+        //     this.blueVirus.y -= this.speed;
+        //     //console.log('W key pressed')
+        // }
 
         if (this.gameOverStatus){
             //turns off listener for y to quit

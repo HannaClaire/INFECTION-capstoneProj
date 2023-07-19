@@ -35,7 +35,7 @@ class Scene3 extends Phaser.Scene {
             
             //sort results from highest to low
             results.sort((a, b) => b.highScore - a.highScore);
-            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Farro', fontSize: "36pt", align: "center", color:"black", position: "absolute"}).setOrigin(0.5);
+            this.add.text(canvasWidth / 2, 350, "Highest Scores", {fontFamily: 'Farro', fontSize: "36pt", align: "center", color:"black", position: "absolute", strokeThickness: 4}).setOrigin(0.5);
             
             let yPosition = 400;
 
@@ -55,12 +55,18 @@ class Scene3 extends Phaser.Scene {
         })
         .catch(err => console.log(err.response))
         
+         // Add a button or key event to return to the main game scene
+         this.input.keyboard.on('keydown-M', this.returnToMainGame, this);
+         this.add.text(canvasWidth/2, 650, "Press M for Main Menu ", {fontFamily: 'Farro', fontSize: "20px"}).setOrigin(0.5);
+ 
     }
 
-    update(){
-
-    }
-
+    returnToMainGame(){
+        this.children.removeAll(true, true);
+        window.location.reload();
+        }
+ 
+    
 }//end bracket
 
 export default Scene3
