@@ -96,13 +96,6 @@ class Scene1 extends Phaser.Scene {
             this.input.keyboard.on('keydown-CTRL', this.getHelp, this);
             const help = this.add.text(X, Y + 300, "CTRL for Help",{fontFamily: 'Farro', fontSize: "12pt"}).setOrigin(0.5)
 
-        this.tweens.add({
-            targets: welcome,
-            duration: 1000,
-            repeat: -1,
-            yoyo: true, // Repeat the tween in reverse
-            repeat: -1 // Repeat indefinitely
-        });
 
         }
 

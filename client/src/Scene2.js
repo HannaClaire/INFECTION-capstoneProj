@@ -80,7 +80,7 @@ class Scene2 extends Phaser.Scene {
         this.load.audio("beam", "public/assets/sounds/beam.ogg", "public/assets/sounds/beam.mp3")
         this.load.audio("explosion", "public/assets/sounds/explosion.mp3")
         this.load.audio("gameOver", "public/assets/sounds/gameOver.mp3")
-        this.load.audio("hurt2", "public/assets/sounds/hurt2.mp3")
+        this.load.audio("splat", "public/assets/sounds/splat.mp3")
         this.load.audio("success", "public/assets/sounds/success.mp3")
     
         //spritesheets
@@ -96,7 +96,7 @@ class Scene2 extends Phaser.Scene {
         this.beam = this.sound.add("beam");
         this.cellDeath = this.sound.add("explosion")
         this.gameOver = this.sound.add("gameOver")
-        this.hurt = this.sound.add("hurt2")
+        this.hurt = this.sound.add("splat")
         this.success = this.sound.add("success")
         
 
